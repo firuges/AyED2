@@ -20,6 +20,10 @@ public class Grafo {
         ListaAdyacencia = new Hash <Vertice>(cant);
     }
     public void agregarVertice(Grafo g, Vertice v){
+        if(!ListaAdyacencia.Pertenece(v))
+            ListaAdyacencia.Insertar(v);
+        else
+            System.out.println("El Vertice que has intentado agregar ya Existe!");
         /*if(!existeVertice(v)){
             for (int i = 0; i < ListaAdyacencia.; i++) {
                 Vertice elVertice = (Vertice)ListaAdyacencia[i].getDato();

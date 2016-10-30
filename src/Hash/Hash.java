@@ -64,6 +64,12 @@ public class Hash<T> implements IHash <T> {
 
     @Override
     public boolean Pertenece(T i) {
+        Vertice Abc = (Vertice)i;
+        for(int j = 0; j < tablaHash.length; j++){
+            if(tablaHash[j].getEstado() ==  TipoRet.OCUPADO && tablaHash[j].equals(Abc)){
+                return true;
+            }
+        }
         return false;
     }
 
