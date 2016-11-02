@@ -11,7 +11,7 @@ import Hash.IndicadorEstado.TipoRet;
  *
  * @author Maxi
  */
-public class NodoHash <T> {
+public class NodoHash <T> implements Comparable<T> {
     
     private TipoRet estado;
     private T dato;
@@ -58,7 +58,11 @@ public class NodoHash <T> {
     public void setEstado(TipoRet estado) {
         this.estado = estado;
     }
-    
+    @Override
+    public int compareTo(T o) 
+    {
+    return  ((Comparable<T>) this.getDato()).compareTo(o); 
+    }
     
     
 }

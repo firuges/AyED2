@@ -9,7 +9,7 @@ package Grafo;
  *
  * @author Maxi
  */
-public class Vertice {
+public class Vertice implements Comparable {
     private String nombEstacion;
     public Vertice(String pAeropuerto){
         this.nombEstacion = pAeropuerto;
@@ -35,5 +35,10 @@ public class Vertice {
     @Override
     public String toString(){
         return this.nombEstacion;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

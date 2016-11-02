@@ -12,24 +12,23 @@ import Hash.IndicadorEstado.TipoRet;
  *
  * @author Maxi
  */
-public class Hash<T> implements IHash <T> {
-    private NodoHash[] tablaHash;
+public class Hash <T extends Comparable<T>> implements IHash <T> {
+    private NodoHash<T> [] tablaHash;
     public Hash Vacio() {
         return null;
     }
-
     @Override
     public void Insertar(T i) {
-        int dato = Integer.parseInt(i.toString());
-        int hash = this.H(dato);
+        Vertice dato = (Vertice)i;
+        int hash = this.H(dato.getNombAeropuerto());
         int a = -1;
         if( tablaHash[hash].getEstado() == TipoRet.OCUPADO ){
             NodoHash aux = new NodoHash(tablaHash[hash]);
-            tablaHash[hash].setDato(dato);
+            tablaHash[hash].setDato(i);
             tablaHash[hash].setSiguiente(aux);
             tablaHash[hash].setEstado(TipoRet.OCUPADO);
         }else{
-            tablaHash[hash].setDato(dato);
+            tablaHash[hash].setDato(i);
             tablaHash[hash].setEstado(TipoRet.OCUPADO);
         }
         
@@ -65,10 +64,9 @@ public class Hash<T> implements IHash <T> {
     @Override
     public boolean Pertenece(T i) {
         Vertice Abc = (Vertice)i;
-        for(int j = 0; j < tablaHash.length; j++){
-            if(tablaHash[j].getEstado() ==  TipoRet.OCUPADO && tablaHash[j].equals(Abc)){
-                return true;
-            }
+        int hash = H(Abc.getNombAeropuerto());
+        if(tablaHash[hash].getDato().compareTo(i) == 0){
+            return true;
         }
         return false;
     }
@@ -77,16 +75,25 @@ public class Hash<T> implements IHash <T> {
     public boolean Borrar(T i) {
         return false;
     }
+    ///CONSTRUCTOR
     public Hash (int Cant){
         this.tablaHash = new NodoHash[Cant];
         for(int i = 0; i < tablaHash.length; i++){
             tablaHash[i] = new NodoHash <T>();
         }
     }
-    public int H(int Dato){
+    public int H(String Dato){
         int devolver = 0;
-        devolver = Dato % tablaHash.length;
+        devolver = hallarValorASCII(Dato) % tablaHash.length;
         return devolver;
+    }
+    private int hallarValorASCII(String pString){
+        int sumaASCII = 0;
+        for (int x=0;x< pString.length();x++){
+            sumaASCII += pString.codePointAt(x);
+            System.out.println(pString.charAt(x) + " = " + pString.codePointAt(x));
+        }
+        return sumaASCII;
     }
 }
 

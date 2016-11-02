@@ -7,39 +7,28 @@ package Grafo;
 
 import Hash.Hash;
 import ListaSimpleGeneric.ListaSimpleGeneric;
-
+import Grafo.Vertice;
 /**
  *
  * @author Maxi
  */
-public class Grafo {
+public class Grafo{
     public Hash ListaAdyacencia;
     public ListaSimpleGeneric[] ListaAristas;
-    private int nroAristas;
+    private static int nroAristas;
     public Grafo(int cant){
-        ListaAdyacencia = new Hash <Vertice>(cant);
+        ListaAdyacencia = new Hash(cant);
+        nroAristas = 0;
     }
     public void agregarVertice(Grafo g, Vertice v){
-        if(!ListaAdyacencia.Pertenece(v))
+        if(!existeVertice(v)){
             ListaAdyacencia.Insertar(v);
+            nroAristas++;
+        }
+            
+        
         else
             System.out.println("El Vertice que has intentado agregar ya Existe!");
-        /*if(!existeVertice(v)){
-            for (int i = 0; i < ListaAdyacencia.; i++) {
-                Vertice elVertice = (Vertice)ListaAdyacencia[i].getDato();
-                if (elVertice.getNombAeropuerto() == null) { // si el vertice esta vacio
-                    elVertice.setNombAeropuerto(v.getNombAeropuerto());
-                    ListaAdyacencia[i].setDato(elVertice);
-                    System.out.println("Se agrego Correctamente tu Aeropuerto: " + String.valueOf(ListaAdyacencia[i].getDato())  );
-                    break;
-                }
-            }
-        }else{
-            System.out.println("El Vertice que has intentado agregar ya Existe!");
-                
-         }*/
-        
-        
     }
     
     public  void agregarArista(Grafo g, Arista a){
@@ -62,15 +51,10 @@ public class Grafo {
     public static Boolean sonAdyacentes(Vertice a, Vertice b){
         return true;
     }
-    /*public  Boolean existeVertice (Vertice v){
-        for(int i = 0; i < ListaAdyacencia.length; i++){
-            Vertice aux = (Vertice)ListaAdyacencia[i].getDato();
-            if(aux.getNombAeropuerto()!= null)
-                if(aux.getNombAeropuerto().equals(v.getNombAeropuerto()))
-                    return true;
-            else
-                    return false;
+    public  Boolean existeVertice (Vertice v){
+        if(ListaAdyacencia.Pertenece(v)){
+            return true;
         }
         return false;
-    }*/
+    }
 }
