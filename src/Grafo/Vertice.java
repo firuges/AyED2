@@ -5,32 +5,34 @@
  */
 package Grafo;
 
+import static javafx.scene.input.KeyCode.T;
+
 /**
  *
  * @author Maxi
  */
 public class Vertice implements Comparable {
     private String nombEstacion;
-    public Vertice(String pAeropuerto){
-        this.nombEstacion = pAeropuerto;
+    public Vertice(String pNombreEstacion){
+        this.nombEstacion = pNombreEstacion;
     }
 
     public Vertice() {
-        this.nombEstacion = null;
+        this.nombEstacion = "";
     }
 
     /**
      * @return the nombEstacion
      */
-    public String getNombAeropuerto() {
+    public String getNombreEstacion() {
         return nombEstacion;
     }
 
     /**
-     * @param nombAeropuerto the nombEstacion to set
+     * @param nombEstacion the nombEstacion to set
      */
-    public void setNombAeropuerto(String nombAeropuerto) {
-        this.nombEstacion = nombAeropuerto;
+    public void setNombAeropuerto(String nombEstacion) {
+        this.nombEstacion = nombEstacion;
     }
     @Override
     public String toString(){
@@ -39,6 +41,6 @@ public class Vertice implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return  ((Comparable) this.getNombreEstacion()).compareTo(o); 
     }
 }

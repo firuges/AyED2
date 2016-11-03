@@ -20,7 +20,7 @@ public class Hash <T extends Comparable<T>> implements IHash <T> {
     @Override
     public void Insertar(T i) {
         Vertice dato = (Vertice)i;
-        int hash = this.H(dato.getNombAeropuerto());
+        int hash = this.H(dato.getNombreEstacion());
         int a = -1;
         if( tablaHash[hash].getEstado() == TipoRet.OCUPADO ){
             NodoHash aux = new NodoHash(tablaHash[hash]);
@@ -64,7 +64,9 @@ public class Hash <T extends Comparable<T>> implements IHash <T> {
     @Override
     public boolean Pertenece(T i) {
         Vertice Abc = (Vertice)i;
-        int hash = H(Abc.getNombAeropuerto());
+        NodoHash nodo = new NodoHash();
+        nodo.setDato(Abc);
+        int hash = H(Abc.getNombreEstacion());
         if(tablaHash[hash].getDato().compareTo(i) == 0){
             return true;
         }
@@ -79,7 +81,8 @@ public class Hash <T extends Comparable<T>> implements IHash <T> {
     public Hash (int Cant){
         this.tablaHash = new NodoHash[Cant];
         for(int i = 0; i < tablaHash.length; i++){
-            tablaHash[i] = new NodoHash <T>();
+            Vertice a = new Vertice();
+            tablaHash[i] = new NodoHash(a);
         }
     }
     public int H(String Dato){
@@ -90,7 +93,7 @@ public class Hash <T extends Comparable<T>> implements IHash <T> {
     private int hallarValorASCII(String pString){
         int sumaASCII = 0;
         for (int x=0;x< pString.length();x++){
-            sumaASCII += pString.codePointAt(x);
+            sumaASCII += (int)pString.codePointAt(x);
             System.out.println(pString.charAt(x) + " = " + pString.codePointAt(x));
         }
         return sumaASCII;
