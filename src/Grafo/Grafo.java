@@ -16,23 +16,19 @@ public class Grafo{
     public Hash ListaAdyacencia;
     public ListaSimpleGeneric[] ListaAristas;
     private static int nroAristas;
-    public Grafo(int cant){
-        ListaAdyacencia = new Hash(cant);
+    public Grafo(){
+        ListaAdyacencia = new Hash(100);
         nroAristas = 0;
     }
-    public void agregarVertice(Grafo g, Vertice v){
+    public void agregarVertice(Vertice v){
         if(!existeVertice(v)){
             ListaAdyacencia.Insertar(v);
             nroAristas++;
         }
-            
-        
-        else
-            System.out.println("El Vertice que has intentado agregar ya Existe!");
     }
     
-    public  void agregarArista(Grafo g, Arista a){
-        
+    public  boolean agregarArista(Grafo g, Arista a){
+        return true;
     }
     public void borrarVertice(Grafo g, Vertice v){
         

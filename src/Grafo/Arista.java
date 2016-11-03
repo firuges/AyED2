@@ -10,6 +10,8 @@ package Grafo;
  * @author Maxi
  */
 public class Arista {
+    private char Linea;
+    private float Precio;
     private Vertice Origen;
     private Vertice Destino;
     private double Distancia;//peso
@@ -41,13 +43,39 @@ public class Arista {
     public void setDestino(Vertice Destino) {
         this.Destino = Destino;
     }
-    @Override
-    public String toString(){
-        return this.Destino + " " + this.Origen;
-    }
     public Arista(){}
-    public Arista(Vertice pOrigen, Vertice pDestino){
+    public Arista(Vertice pOrigen, Vertice pDestino, char linea, float precio){
+        this.Linea = linea;
         this.Origen = pOrigen;
         this.Destino = pDestino;
+        this.Precio = precio;
+    }
+
+    /**
+     * @return the Linea
+     */
+    public char getLinea() {
+        return Linea;
+    }
+
+    /**
+     * @param Linea the Linea to set
+     */
+    public void setLinea(char Linea) {
+        this.Linea = Linea;
+    }
+
+    /**
+     * @return the Precio
+     */
+    public float getPrecio() {
+        return Precio;
+    }
+
+    /**
+     * @param Precio the Precio to set
+     */
+    public void setPrecio(float Precio) {
+        this.Precio = Precio;
     }
 }
