@@ -67,9 +67,11 @@ public class Hash implements IHash  {
         Vertice Abc = null;
         int hash = H(i.getNombreEstacion());
         Abc = tablaHash[hash].getDato();
-        if(Abc.equals(i)){
-            return true;
-        }
+        if(Abc != null)
+            if(Abc.getNombreEstacion() != null)
+                if(Abc.getNombreEstacion().equals(i.getNombreEstacion())){
+                    return true;
+                }
         return false;
     }
 
