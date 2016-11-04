@@ -12,24 +12,25 @@ import Hash.IndicadorEstado.TipoRet;
  *
  * @author Maxi
  */
-public class Hash <T extends Comparable<T>> implements IHash <T> {
-    private NodoHash<T> [] tablaHash;
+public class Hash implements IHash  {
+    private NodoHash [] tablaHash;
     public Hash Vacio() {
         return null;
     }
     @Override
-    public void Insertar(T i) {
-        Vertice dato = (Vertice)i;
-        int hash = this.H(dato.getNombreEstacion());
+    public void Insertar(Vertice i) {
+        Vertice dato = null;
+        int hashPosition = this.H(i.getNombreEstacion());
         int a = -1;
-        if( tablaHash[hash].getEstado() == TipoRet.OCUPADO ){
-            NodoHash aux = new NodoHash(tablaHash[hash]);
-            tablaHash[hash].setDato(i);
-            tablaHash[hash].setSiguiente(aux);
-            tablaHash[hash].setEstado(TipoRet.OCUPADO);
+        if( tablaHash[hashPosition].getEstado() == TipoRet.OCUPADO ){
+            dato = (Vertice)tablaHash[hashPosition].getDato();
+            NodoHash aux = new NodoHash(dato);
+            tablaHash[hashPosition].setDato(i);
+            tablaHash[hashPosition].setSiguiente(aux);
+            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
         }else{
-            tablaHash[hash].setDato(i);
-            tablaHash[hash].setEstado(TipoRet.OCUPADO);
+            tablaHash[hashPosition].setDato(dato);
+            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
         }
         
     }
@@ -62,19 +63,27 @@ public class Hash <T extends Comparable<T>> implements IHash <T> {
     }
 
     @Override
-    public boolean Pertenece(T i) {
-        Vertice Abc = (Vertice)i;
-        NodoHash nodo = new NodoHash();
-        nodo.setDato(Abc);
-        int hash = H(Abc.getNombreEstacion());
-        if(tablaHash[hash].getDato().compareTo(i) == 0){
+    public boolean Pertenece(Vertice i) {
+        Vertice Abc = null;
+        int hash = H(i.getNombreEstacion());
+        Abc = tablaHash[hash].getDato();
+        if(Abc.equals(i)){
             return true;
         }
         return false;
     }
 
     @Override
-    public boolean Borrar(T i) {
+    public boolean Borrar(Vertice i) {
+        Vertice Abc = null;
+        int hash = H(i.getNombreEstacion());
+        Abc = tablaHash[hash].getDato();
+        
+        NodoHash aux = tablaHash[hash];
+        if(Abc.equals(i)){
+            tablaHash[hash] = tablaHash[hash].getSiguiente();
+            return true;
+        }
         return false;
     }
     ///CONSTRUCTOR
@@ -94,7 +103,7 @@ public class Hash <T extends Comparable<T>> implements IHash <T> {
         int sumaASCII = 0;
         for (int x=0;x< pString.length();x++){
             sumaASCII += (int)pString.codePointAt(x);
-            System.out.println(pString.charAt(x) + " = " + pString.codePointAt(x));
+            //System.out.println(pString.charAt(x) + " = " + pString.codePointAt(x));
         }
         return sumaASCII;
     }

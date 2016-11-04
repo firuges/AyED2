@@ -5,13 +5,15 @@
  */
 package Hash;
 
+import Grafo.Vertice;
+
 /**
  *
  * @author Maxi
  */
-public interface IHash <T> {
-    void Insertar (T i);
+public interface IHash {
+    void Insertar (Vertice i);
     boolean EsVacio ();
-    boolean Pertenece (T i);
-    boolean Borrar (T i);
+    boolean Pertenece (Vertice i);
+    boolean Borrar (Vertice i);
 }

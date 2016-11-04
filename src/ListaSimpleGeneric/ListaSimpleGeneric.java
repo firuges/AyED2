@@ -5,15 +5,16 @@
  */
 package ListaSimpleGeneric;
 
+import Grafo.Vertice;
 import Hash.NodoHash;
 
 /**
  *
  * @author Maxi
  */
-public class ListaSimpleGeneric <T> implements IListaSimpleGeneric <T>{
+public class ListaSimpleGeneric  implements IListaSimpleGeneric{
     
-    private NodoHash<T> inicio;
+    private NodoHash inicio;
     public NodoHash getInicio(){
         return this.inicio;
     }
@@ -22,7 +23,7 @@ public class ListaSimpleGeneric <T> implements IListaSimpleGeneric <T>{
     }
 
     @Override
-    public void insertarInicio(T n) {
+    public void insertarInicio(Vertice n) {
         NodoHash nuevo = new NodoHash(n);
         nuevo.setSiguiente(inicio);
         this.inicio = nuevo;
@@ -34,7 +35,7 @@ public class ListaSimpleGeneric <T> implements IListaSimpleGeneric <T>{
     }
     
     @Override
-    public void imprimir(T n) {
+    public void imprimir(Vertice n) {
         if(this.esVacia())
             System.out.println("LISTA VACIA");
         else{
