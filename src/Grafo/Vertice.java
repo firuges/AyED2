@@ -11,14 +11,16 @@ import static javafx.scene.input.KeyCode.T;
  *
  * @author Maxi
  */
-public class Vertice implements Comparable {
+public class Vertice {
     private String nombEstacion;
+    private Servicio unServicio;
     public Vertice(String pNombreEstacion){
         this.nombEstacion = pNombreEstacion;
     }
 
     public Vertice() {
-        this.nombEstacion = "";
+        this.nombEstacion = null;
+        this.unServicio = new Servicio();
     }
 
     /**
@@ -39,8 +41,17 @@ public class Vertice implements Comparable {
         return this.nombEstacion;
     }
 
-    @Override
-    public int compareTo(Object o) {
-        return  ((Comparable) this.getNombreEstacion()).compareTo(o); 
+    /**
+     * @return the unServicio
+     */
+    public Servicio getUnServicio() {
+        return unServicio;
+    }
+
+    /**
+     * @param unServicio the unServicio to set
+     */
+    public void setUnServicio(Servicio unServicio) {
+        this.unServicio = unServicio;
     }
 }

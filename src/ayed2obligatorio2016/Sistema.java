@@ -35,11 +35,13 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet altaTramo(char linea, String origen, String destino, float distancia, float tarifa) {
-        //Agregar Estacion
+        //Agregar Estacion 1
         Vertice Origen = new Vertice();
         Origen.setNombAeropuerto(origen);
+        //Agregar Estacion 2
         Vertice Destino = new Vertice();
-        Origen.setNombAeropuerto(destino);
+        Destino.setNombAeropuerto(destino);
+        //Agregar Vertices
         MetroLineas.agregarVertice(Origen);
         MetroLineas.agregarVertice(Destino);
         

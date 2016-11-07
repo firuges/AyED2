@@ -5,19 +5,20 @@
  */
 package Hash;
 
+import Grafo.Vertice;
 import Hash.IndicadorEstado.TipoRet;
 
 /**
  *
  * @author Maxi
  */
-public class NodoHash <T> implements Comparable<T> {
+public class NodoHash  implements Comparable {
     
     private TipoRet estado;
-    private T dato;
-    private NodoHash <T> siguiente;
+    private Vertice dato;
+    private NodoHash  siguiente;
 
-    public NodoHash(T dato) {
+    public NodoHash(Vertice dato) {
         this.estado = IndicadorEstado.TipoRet.VACIO;
         this.dato = dato;
         this.siguiente = null;
@@ -29,11 +30,11 @@ public class NodoHash <T> implements Comparable<T> {
         this.siguiente = null;
     }
 
-    public T getDato() {
+    public Vertice getDato() {
         return dato;
     }
 
-    public void setDato(T dato) {
+    public void setDato(Vertice dato) {
         this.dato = dato;
     }
 
@@ -41,7 +42,7 @@ public class NodoHash <T> implements Comparable<T> {
         return siguiente;
     }
 
-    public void setSiguiente(NodoHash <T> siguiente) {
+    public void setSiguiente(NodoHash siguiente) {
         this.siguiente = siguiente;
     }
 
@@ -58,10 +59,10 @@ public class NodoHash <T> implements Comparable<T> {
     public void setEstado(TipoRet estado) {
         this.estado = estado;
     }
+
     @Override
-    public int compareTo(T o) 
-    {
-    return  ((Comparable<T>) this.getDato()).compareTo(o); 
+    public int compareTo(Object o) {
+        return  ((Comparable) this.getDato()).compareTo(o); 
     }
     
     
