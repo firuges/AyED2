@@ -3,14 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Grafo;
+package Common;
 
 /**
  *
  * @author Maxi
  */
-class Servicio {
+public class Cliente {
+    private int cedula;
     private String nombre;
+
+    public Cliente(int pCedula, String pNombre) {
+        this.cedula = pCedula;
+        this.nombre = pNombre;
+    }
+
+    /**
+     * @return the cedula
+     */
+    public int getCedula() {
+        return cedula;
+    }
+
+    /**
+     * @param cedula the cedula to set
+     */
+    public void setCedula(int cedula) {
+        this.cedula = cedula;
+    }
 
     /**
      * @return the nombre
@@ -24,8 +44,5 @@ class Servicio {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-    public Servicio(){
-        this.nombre = null;
     }
 }

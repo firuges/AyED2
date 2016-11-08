@@ -5,6 +5,7 @@
 
 package ayed2obligatorio2016;
 
+import Common.Cliente;
 import Grafo.Arista;
 import Grafo.Grafo;
 import Grafo.Vertice;
@@ -69,6 +70,7 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet agregarViaje(String origen, String destino, int ciCliente, LocalDateTime fechaHora) {
+        
                 return TipoRet.NO_IMPLEMENTADA;
     }
 
@@ -101,6 +103,8 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet altaCliente(int cedula, String nombre) {
+        Cliente unCli = new Cliente(cedula, nombre);
+        
                 return TipoRet.NO_IMPLEMENTADA;
     }
 

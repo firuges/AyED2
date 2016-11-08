@@ -8,16 +8,18 @@ package Grafo;
 import Hash.Hash;
 import ListaSimpleGeneric.ListaSimpleGeneric;
 import Grafo.Vertice;
+import java.util.ArrayList;
 /**
  *
  * @author Maxi
  */
 public class Grafo{
     public Hash ListaAdyacencia;
-    public ListaSimpleGeneric[] ListaAristas;
+    public ArrayList<Arista> ListaAristas;
     private static int nroAristas;
     public Grafo(){
         ListaAdyacencia = new Hash(100);
+        ListaAristas = new ArrayList<Arista>();
         nroAristas = 0;
     }
     public void agregarVertice(Vertice v){
@@ -28,6 +30,9 @@ public class Grafo{
     }
     
     public  boolean agregarArista(Grafo g, Arista a){
+        if(!existeArista(a)){
+            ListaAristas.add(a);
+        }
         return true;
     }
     public void borrarVertice(Grafo g, Vertice v){
@@ -50,6 +55,18 @@ public class Grafo{
     public  Boolean existeVertice (Vertice v){
         if(ListaAdyacencia.Pertenece(v)){
             return true;
+        }
+        return false;
+    }
+    public  Boolean existeArista (Arista v){
+        if(ListaAristas.size() > 0){
+            for(Arista laArista: ListaAristas){
+            if(laArista != null){
+                if(laArista.getOrigen().equals(v.getOrigen()) && laArista.getDestino().equals(v.getDestino()) ){
+                    return true;
+                }
+            }
+        }
         }
         return false;
     }
