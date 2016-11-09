@@ -6,6 +6,8 @@
 package Grafo;
 
 import Common.Servicio;
+import ListaSimple.ListaSimple;
+import ListaSimpleGneric.ListaSimpleGeneric;
 import static javafx.scene.input.KeyCode.T;
 
 /**
@@ -14,14 +16,14 @@ import static javafx.scene.input.KeyCode.T;
  */
 public class Vertice {
     private String nombEstacion;
-    private Servicio unServicio;
+    private ListaSimpleGeneric  losServicios;
     public Vertice(String pNombreEstacion){
         this.nombEstacion = pNombreEstacion;
     }
 
     public Vertice() {
         this.nombEstacion = null;
-        this.unServicio = new Servicio();
+        this.losServicios = new ListaSimpleGeneric ();
     }
 
     /**
@@ -43,16 +45,17 @@ public class Vertice {
     }
 
     /**
-     * @return the unServicio
+     * @return the losServicios
      */
-    public Servicio getUnServicio() {
-        return unServicio;
+    public ListaSimpleGeneric getLosServicios() {
+        return losServicios;
     }
 
     /**
-     * @param unServicio the unServicio to set
+     * @param unServicio the losServicios to set
      */
-    public void setUnServicio(Servicio unServicio) {
-        this.unServicio = unServicio;
+    public void setLosServicios(ListaSimpleGeneric unServicio) {
+        this.losServicios = unServicio;
     }
+    
 }

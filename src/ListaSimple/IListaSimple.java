@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ListaSimpleGeneric;
+package ListaSimple;
 
 import Grafo.Vertice;
 
@@ -11,7 +11,7 @@ import Grafo.Vertice;
  *
  * @author Maxi
  */
-public interface IListaSimpleGeneric {
+public interface IListaSimple {
     
     public void insertarInicio(Vertice n);
     

@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ListaSimpleGeneric;
-
-import Grafo.Vertice;
-import Hash.NodoHash;
+package ListaSimpleGneric;
 
 /**
  *
- * @author Maxi
+ * @author Alen
  */
-public class ListaSimpleGeneric  implements IListaSimpleGeneric{
+public class ListaSimpleGeneric <T> implements IListaSimpleGeneric <T>{
     
-    private NodoHash inicio;
-    public NodoHash getInicio(){
+    private NodoListaSimple<T> inicio;
+    public NodoListaSimple getInicio(){
         return this.inicio;
     }
     public ListaSimpleGeneric() {
@@ -23,8 +20,8 @@ public class ListaSimpleGeneric  implements IListaSimpleGeneric{
     }
 
     @Override
-    public void insertarInicio(Vertice n) {
-        NodoHash nuevo = new NodoHash(n);
+    public void insertarInicio(T n) {
+        NodoListaSimple nuevo = new NodoListaSimple(n);
         nuevo.setSiguiente(inicio);
         this.inicio = nuevo;
     }
@@ -35,11 +32,11 @@ public class ListaSimpleGeneric  implements IListaSimpleGeneric{
     }
     
     @Override
-    public void imprimir(Vertice n) {
+    public void imprimir(T n) {
         if(this.esVacia())
             System.out.println("LISTA VACIA");
         else{
-            NodoHash aux = this.inicio;
+            NodoListaSimple aux = this.inicio;
             while(aux != null){
                 System.out.println(aux.getDato());
                 aux = aux.getSiguiente();
@@ -63,4 +60,3 @@ public class ListaSimpleGeneric  implements IListaSimpleGeneric{
     
     
 }
-
