@@ -29,7 +29,7 @@ public class Hash implements IHash  {
             tablaHash[hashPosition].setSiguiente(aux);
             tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
         }else{
-            tablaHash[hashPosition].setDato(dato);
+            tablaHash[hashPosition].setDato(i);
             tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
         }
         
@@ -98,7 +98,7 @@ public class Hash implements IHash  {
     }
     public int H(String Dato){
         int devolver = 0;
-        devolver = hallarValorASCII(Dato) % tablaHash.length;
+        devolver = hallarValorASCII(Dato) % tablaHash.length+1;
         return devolver;
     }
     private int hallarValorASCII(String pString){

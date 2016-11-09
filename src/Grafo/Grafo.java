@@ -6,7 +6,7 @@
 package Grafo;
 
 import Hash.Hash;
-import ListaSimpleGeneric.ListaSimpleGeneric;
+import ListaSimple.ListaSimple;
 import Grafo.Vertice;
 import java.util.ArrayList;
 /**
@@ -32,8 +32,9 @@ public class Grafo{
     public  boolean agregarArista(Grafo g, Arista a){
         if(!existeArista(a)){
             ListaAristas.add(a);
+            return true;
         }
-        return true;
+        return false;
     }
     public void borrarVertice(Grafo g, Vertice v){
         
@@ -61,12 +62,16 @@ public class Grafo{
     public  Boolean existeArista (Arista v){
         if(ListaAristas.size() > 0){
             for(Arista laArista: ListaAristas){
-            if(laArista != null){
-                if(laArista.getOrigen().equals(v.getOrigen()) && laArista.getDestino().equals(v.getDestino()) ){
-                    return true;
-                }
+                if(laArista != null){
+                    //IDA // y // VUELTA
+                    if(laArista.getOrigen().getNombreEstacion().equals(v.getOrigen().getNombreEstacion()) && laArista.getDestino().getNombreEstacion().equals(v.getDestino().getNombreEstacion()) ||
+                            laArista.getDestino().getNombreEstacion().equals(v.getOrigen().getNombreEstacion()) && laArista.getOrigen().getNombreEstacion().equals(v.getDestino().getNombreEstacion())){
+                        return true;
+                    }
+                 }
+        
             }
-        }
+        
         }
         return false;
     }

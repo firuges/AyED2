@@ -6,9 +6,11 @@
 package ayed2obligatorio2016;
 
 import Common.Cliente;
+import Common.Servicio;
 import Grafo.Arista;
 import Grafo.Grafo;
 import Grafo.Vertice;
+import ListaSimpleGneric.ListaSimpleGeneric;
 import java.time.LocalDateTime;
 
 /**
@@ -75,7 +77,18 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet agregarServicio(String estacion, String servicio) {
-                return TipoRet.NO_IMPLEMENTADA;
+        Vertice unaEstacion = new Vertice();
+        unaEstacion.setNombAeropuerto(estacion);
+        if(this.MetroLineas.existeVertice(unaEstacion)){
+            Servicio serv = new Servicio();
+            if(unaEstacion.getLosServicios()!= null){
+                unaEstacion.getLosServicios().insertarInicio(serv);
+                return TipoRet.OK;
+            }
+        }
+         return TipoRet.ERROR_1;
+        
+                
     }
 
     public TipoRet listarClientes() {

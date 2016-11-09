@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ListaSimpleGeneric;
+package ListaSimple;
 
 /**
  *
  * @author Maxi
  */
-public class NodoListaSimple <T> {
+public class NodoLista <T> {
     
     private T dato;
-    private NodoListaSimple <T> siguiente;
+    private NodoLista <T> siguiente;
 
-    public NodoListaSimple(T dato) {
+    public NodoLista(T dato) {
         this.dato = dato;
         this.siguiente = null;
     }
@@ -27,11 +27,11 @@ public class NodoListaSimple <T> {
         this.dato = dato;
     }
 
-    public NodoListaSimple getSiguiente() {
+    public NodoLista getSiguiente() {
         return siguiente;
     }
 
-    public void setSiguiente(NodoListaSimple <T> siguiente) {
+    public void setSiguiente(NodoLista <T> siguiente) {
         this.siguiente = siguiente;
     }
     
