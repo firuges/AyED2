@@ -2,26 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Maxi/Documents/AyED2/src/ayed2obligatorio2016/Main.java</file>
-=======
-        <group name="Obligatorio-AyED2-2016">
-            <file>file:/D:/Documents/NetBeansProjects/AYED2Obligatorio2016/src/ayed2obligatorio2016/Sistema.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/AYED2Obligatorio2016/src/ayed2obligatorio2016/IMetro.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/AYED2Obligatorio2016/src/ayed2obligatorio2016/Main.java</file>
-        </group>
-        <group>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/Hash/IHash.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/Grafo/Grafo.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/ayed2obligatorio2016/Sistema.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/ayed2obligatorio2016/Main.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/Grafo/Arista.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/ayed2obligatorio2016/IMetro.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/Hash/IndicadorEstado.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/Grafo/Vertice.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/Hash/Hash.java</file>
-            <file>file:/C:/Users/Maxi/Documents/AYED2Obligatorio2016/src/Hash/NodoHash.java</file>
->>>>>>> dd5f21486cfa11f4e1d3e4f0864fb6b23bdc9ed4
-        </group>
+        <group/>
     </open-files>
 </project-private>
