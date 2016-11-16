@@ -43,7 +43,7 @@ public class ListaSimpleGeneric <T> implements IListaSimpleGeneric <T>{
             }
         }
     }
-     
+    
     @Override
     public void borrarInicio() {
         if(!this.esVacia())
@@ -56,7 +56,24 @@ public class ListaSimpleGeneric <T> implements IListaSimpleGeneric <T>{
         while(this.inicio != null)
             this.borrarInicio();
     }
-    
+    /*@Override
+    public boolean existe(ListaSimpleGeneric lista,int izq, int der, T n){
+        if(izq > der){
+            return false;
+        }else{
+            int medio = (izq+der)/2;
+
+		if (lista[medio]){
+			return true; // return medio;
+		}else{
+		          if(n<vec[medio]){
+			return buscarB (vec, inf, medio-1, n);
+		          }else{
+			return buscarB (vec, medio+1, sup, n);
+		           }
+		}
+        }
+    }*/
     
     
 }

@@ -11,14 +11,19 @@ import Grafo.Arista;
 import Grafo.Grafo;
 import Grafo.Vertice;
 import ListaSimpleGneric.ListaSimpleGeneric;
+import arbol.ABB;
+import arbol.nodoABB;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Daniel
  */
 public class Sistema implements IMetro {
-    private static Grafo MetroLineas; 
+    public static Grafo MetroLineas; 
+    public static ABB ListaDeClientes;
     public enum TipoRet {
         OK, ERROR_1, ERROR_2, ERROR_3, ERROR_4, NO_IMPLEMENTADA
     };
@@ -26,6 +31,7 @@ public class Sistema implements IMetro {
     public TipoRet crearMetro() {
         if(MetroLineas == null){
             MetroLineas = new Grafo();
+            ListaDeClientes = new ABB();
         }
         return TipoRet.OK;
     }
@@ -72,7 +78,7 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet agregarViaje(String origen, String destino, int ciCliente, LocalDateTime fechaHora) {
-        
+        Vertice origen 
                 return TipoRet.NO_IMPLEMENTADA;
     }
 
@@ -92,7 +98,10 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet listarClientes() {
-        return TipoRet.NO_IMPLEMENTADA;
+        nodoABB nodo = Sistema.ListaDeClientes.getRaiz();
+        if(nodo != null)
+            Sistema.ListaDeClientes.imprimirPreOrder();
+        return TipoRet.OK;
     }
 
     public TipoRet listarViajesCliente(int ciCliente) {
@@ -117,11 +126,30 @@ public class Sistema implements IMetro {
 
     public TipoRet altaCliente(int cedula, String nombre) {
         Cliente unCli = new Cliente(cedula, nombre);
-        
-                return TipoRet.NO_IMPLEMENTADA;
+        boolean agregado = false;
+        if(Utilidades.FormatoCedula(cedula)){
+            return TipoRet.ERROR_2;
+        }else{
+            agregado = Sistema.ListaDeClientes.insertar(unCli);
+            if(!agregado){
+               return TipoRet.ERROR_1;
+            }
+        }
+        return TipoRet.OK;       
     }
 
     public TipoRet bajaCliente(int cedula) {
-                return TipoRet.NO_IMPLEMENTADA;
+        Cliente unCli = new Cliente(cedula);
+        boolean eliminado = false;
+        if(Utilidades.FormatoCedula(cedula)){
+            return TipoRet.ERROR_2;
+        }
+        eliminado = Sistema.ListaDeClientes.eliminar(unCli);
+        
+        if(eliminado){
+            return TipoRet.OK;
+        }
+        return TipoRet.ERROR_1;
+                
     }
 }

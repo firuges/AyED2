@@ -9,7 +9,7 @@ package ListaSimpleGneric;
  *
  * @author Alen
  */
-public class NodoListaSimple <T> {
+public class NodoListaSimple <T> implements Comparable<T>{
     
     private T dato;
     private NodoListaSimple <T> siguiente;
@@ -33,6 +33,11 @@ public class NodoListaSimple <T> {
 
     public void setSiguiente(NodoListaSimple <T> siguiente) {
         this.siguiente = siguiente;
+    }
+
+    @Override
+    public int compareTo(T o) {
+        return  ((Comparable<T>) this.getDato()).compareTo(o); 
     }
     
     

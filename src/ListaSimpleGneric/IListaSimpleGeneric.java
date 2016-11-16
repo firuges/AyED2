@@ -21,4 +21,5 @@ public interface IListaSimpleGeneric <T> {
     
     public void vaciarLista();
     
+    //public boolean existe(ListaSimpleGeneric lista,int izq, int der, T n);
 }

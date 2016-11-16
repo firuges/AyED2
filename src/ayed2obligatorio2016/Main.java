@@ -132,6 +132,9 @@ public class Main {
         p.ver(s.altaCliente(11111111, "Lucas Hussey"), Sistema.TipoRet.OK, "Se agrega el cliente Lucas Hussey");
         System.out.println("ERRORES");
         p.ver(s.bajaCliente(22222222), Sistema.TipoRet.ERROR_1, "Error, No existe ningun cliente registrado en el metro con ese nro de C.I.");
+        /*
+        En la hoja falta decir que Espera ERROR_2 para esto que sigue
+        */
         p.ver(s.bajaCliente(1111111), Sistema.TipoRet.ERROR_2, "Error, La C.I. no respeta el formato");
         s.destruirMetro();
         finPrueba(" Fin PRUEBA ERROR 2");

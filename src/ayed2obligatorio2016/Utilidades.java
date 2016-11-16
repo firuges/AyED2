@@ -22,4 +22,11 @@ public class Utilidades {
         }
         return true;
     }
+    public static boolean FormatoCedula(int cedula){
+        String largo = String.valueOf(cedula);
+        if(largo.length() == 7){
+            return true;
+        }
+        return false;
+    }
 }
