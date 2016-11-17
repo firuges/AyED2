@@ -78,7 +78,7 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet agregarViaje(String origen, String destino, int ciCliente, LocalDateTime fechaHora) {
-        Vertice origen 
+        
                 return TipoRet.NO_IMPLEMENTADA;
     }
 
