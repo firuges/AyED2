@@ -165,7 +165,7 @@ public class Sistema implements IMetro {
     public TipoRet bajaCliente(int cedula) {
         Cliente unCli = new Cliente(cedula);
         boolean eliminado = false;
-        if(Utilidades.FormatoCedula(cedula)){
+        if(!Utilidades.FormatoCedula(cedula)){
             return TipoRet.ERROR_2;
         }
         eliminado = Sistema.ListaDeClientes.eliminar(unCli);
