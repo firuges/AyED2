@@ -86,9 +86,11 @@ public class Sistema implements IMetro {
         Arista OriDesti = new Arista(Origen, Destino);
         Cliente unCli = new Cliente(ciCliente);
         if(Utilidades.FormatoCedula(ciCliente)){
-            if(ListaDeClientes.existeNodo(unCli)){
+            nodoABB aux = ListaDeClientes.existeNodo(unCli);
+            if(aux!= null){
                 if(MetroLineas.existeArista(OriDesti)){
                     Viaje unViaje = new Viaje(Origen, Destino, unCli, fechaHora);
+                    unViaje.setcCliente((Cliente)aux.getDato());
                     boolean agregado = false;
                     agregado = Sistema.ListaViajes.insertar(unViaje);
                     if(agregado){
@@ -129,7 +131,37 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet listarViajesCliente(int ciCliente) {
-                return TipoRet.NO_IMPLEMENTADA;
+        nodoABB nodo = Sistema.ListaViajes.getRaiz();
+        if(Utilidades.FormatoCedula(ciCliente)){
+            Cliente unCli = new Cliente();
+            unCli.setCedula(ciCliente);
+            nodoABB elNodo = new nodoABB(unCli);
+            elNodo = Sistema.ListaDeClientes.existeNodo(unCli);
+            
+            if(elNodo != null){
+                unCli = (Cliente)elNodo.getDato();
+                if(nodo != null){
+                    boolean ninguno = false;
+                    System.out.println("Cliente: " + unCli.getCedula() + " - " + unCli.getNombre());
+                    ninguno = Sistema.ListaViajes.imprimirViajesDeClientePostOrder(unCli);
+                    if(!ninguno){
+                        System.out.println("Sin Viajes Registrados");
+                    }
+                }
+                
+                return TipoRet.OK;
+            }else{
+                return TipoRet.ERROR_1;
+            }
+            
+        }else{
+            return TipoRet.ERROR_2;
+        }
+            
+            
+            
+        
+        
     }
 
     public TipoRet listarServiciosEstacion(String estacion) {

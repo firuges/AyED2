@@ -19,7 +19,9 @@ public class nodoABB <T> implements Comparable<T>{
         this.izq = null;
         this.der = null;
     }
+    public nodoABB(){
     
+    }
     public nodoABB(T dato, nodoABB izq,nodoABB der){
         this.dato = dato;
         this.izq = izq;

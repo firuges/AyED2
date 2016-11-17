@@ -17,7 +17,7 @@ public class Cliente implements Comparable{
         this.cedula = pCedula;
         this.nombre = pNombre;
     }
-
+    public Cliente(){}
     public Cliente(int pCedula) {
         this.cedula = pCedula;
     }

@@ -5,6 +5,8 @@
  */
 package arbol;
 
+import Common.Cliente;
+
 /**
  *
  * @author Maxi
@@ -18,13 +20,13 @@ public interface IABB <T> {
     void imprimirPostOrder();
 
     void imprimirPreOrder();
-    boolean existeNodo(T dato);
+    nodoABB existeNodo(T dato);
 
     boolean insertar(T dato);
 
     boolean isEmpty();
 
     int cantDeNodos(nodoABB a);
-    
+    boolean imprimirViajesDeClientePostOrder(Cliente unCli);
      void borrarMinimo(nodoABB nodo);
 }

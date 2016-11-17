@@ -5,6 +5,9 @@
  */
 package ayed2obligatorio2016;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Maxi
@@ -29,5 +32,17 @@ public class Utilidades {
             return true;
         }
         return false;
+    }
+    public static String ParsearDateTimeToDate(String fechax) {
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+            String año = String.valueOf(fechax.charAt(0)) + String.valueOf(fechax.charAt(1)) + String.valueOf(fechax.charAt(2))  + String.valueOf(fechax.charAt(3));
+            String Mes = String.valueOf(fechax.charAt(5)) + String.valueOf(fechax.charAt(6));
+            String dia = String.valueOf(fechax.charAt(8)) + String.valueOf(fechax.charAt(9));
+            String fecha = año + "/" + Mes + "/" + dia;
+            return fecha;
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

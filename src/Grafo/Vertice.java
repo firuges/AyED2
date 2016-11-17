@@ -19,6 +19,7 @@ public class Vertice {
     private ListaSimpleGeneric  losServicios;
     public Vertice(String pNombreEstacion){
         this.nombEstacion = pNombreEstacion;
+        this.losServicios = new ListaSimpleGeneric ();
     }
 
     public Vertice() {

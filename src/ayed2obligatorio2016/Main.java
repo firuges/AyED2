@@ -71,10 +71,18 @@ public class Main {
         crearTramosLineaB(p, s);
         crearTramosLineaC(p, s);
         LocalDateTime hoy = LocalDateTime.now();
+        String fechaInicialHora = "2016-11-16T12:05:30.756";
+	LocalDateTime ayer = LocalDateTime.parse(fechaInicialHora);
+        String fechaInicialHora2 = "2016-11-09T12:05:30.756";
+	LocalDateTime SemanaPasada = LocalDateTime.parse(fechaInicialHora2);
         p.ver(s.altaCliente(11111111, "Lucas Hussey"), Sistema.TipoRet.OK, "Se agrega el cliente Lucas Hussey ");
         /*Error al ingresar el Viaje! no existe el cliente! nunca lo ingresa!!
             Lo agrego arriba de estas lineas*/
         p.ver(s.agregarViaje("Constitucion", "Avenida de Mayo", 11111111, hoy), Sistema.TipoRet.OK, "Se agrega el viaje Constitucion-Avenida de Mayo para el Cliente Lucas Hussey");
+        /*Agregados para comprobacion*/
+        p.ver(s.agregarViaje("Avenida de Mayo", "Diagonal Norte", 11111111, ayer), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-Diagonal Norte para el Cliente Lucas Hussey"); 
+        p.ver(s.agregarViaje("Avenida de Mayo", "Diagonal Norte", 11111111, SemanaPasada), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-Diagonal Norte para el Cliente Lucas Hussey"); 
+        /***////
         s.listarViajesCliente(11111111);
         s.destruirMetro();
         finPrueba(" Fin PRUEBA 3");

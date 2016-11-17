@@ -7,6 +7,7 @@ package Common;
 
 import Grafo.Arista;
 import Grafo.Vertice;
+import ListaSimpleGneric.ListaSimpleGeneric;
 import java.time.LocalDateTime;
 /**
  *
@@ -85,7 +86,15 @@ public class Viaje implements Comparable{
     @Override
     public int compareTo(Object o) {
         Viaje unViaje = (Viaje)o;
-        return  ((Comparable) this).compareTo(unViaje); 
+        int i = ((Comparable) this.getvOrigen().getNombreEstacion()).compareTo(unViaje.getvOrigen().getNombreEstacion());
+        if(i != 0)
+            return i;
+        int j = ((Comparable) this.getvDestino().getNombreEstacion()).compareTo(unViaje.getvDestino().getNombreEstacion());
+        if(j != 0)
+            return j;
+        
+        return 1;
+        //return  ((Comparable) this).compareTo(unViaje); 
     }
 }
 //String origen, String destino, int ciCliente, LocalDateTime fechaHora

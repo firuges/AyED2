@@ -5,6 +5,11 @@
  */
 package arbol;
 
+import Common.Cliente;
+import Common.Viaje;
+import ayed2obligatorio2016.Sistema;
+import ayed2obligatorio2016.Utilidades;
+
 /**
  *
  * @author Maxi
@@ -155,9 +160,9 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
     }
     public void imprimirPostOrder(nodoABB a){
             if (a!=null){
-            imprimirPostOrder(a.getIzq());
-            imprimirPostOrder(a.getDer());
-            System.out.println(a.getDato()+" - ");
+                imprimirPostOrder(a.getIzq());
+                imprimirPostOrder(a.getDer());
+                System.out.println(a.getDato()+" - ");
            }
     }
     @Override
@@ -172,21 +177,41 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
              }
     }
     @Override
-    public boolean existeNodo(T dato){
+    public nodoABB existeNodo(T dato){
 	return existeNodo(dato, this.raiz);
     }
-    public boolean existeNodo(T dato, nodoABB a){
+    public nodoABB existeNodo(T dato, nodoABB a){
         nodoABB elNodo = new nodoABB(dato);
         
         if (a!=null){
             existeNodo(dato, a.getIzq());
             existeNodo(dato, a.getDer());
             if(elNodo.compareTo(a.getDato()) == 0){
-            return true;
+            return a;
         }
        }
-        return false;
+        return null;
     }
+    @Override
+    public boolean imprimirViajesDeClientePostOrder(Cliente unCli){
+        
+        return imprimirViajesDeClientePostOrder(this.raiz, unCli);
+    }
+    public boolean imprimirViajesDeClientePostOrder(nodoABB a, Cliente unCli){
+            boolean ninguno = false;
+            if (a!=null){
+                Viaje aux = (Viaje)a.getDato();
+                if(aux.getcCliente().getCedula() == unCli.getCedula()){
+                    ninguno = true;
+                    aux.getcCliente().setNombre(unCli.getNombre());
+                    System.out.println(Utilidades.ParsearDateTimeToDate(aux.getFechaHora().toString())+" - " +aux.getvOrigen().getNombreEstacion()+" - " + aux.getvDestino().getNombreEstacion() +".");
+                }
+                imprimirViajesDeClientePostOrder(a.getIzq(), unCli);
+                imprimirViajesDeClientePostOrder(a.getDer(),  unCli);
+                
+           }
+            return ninguno;
+    }//
     public int cantDeNodos(nodoABB a){
     if (a!=null){
         return ( 1 + cantDeNodos(a.getIzq())) + (cantDeNodos(a.getDer()));
