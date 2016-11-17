@@ -18,7 +18,7 @@ public class Grafo{
     public ArrayList<Arista> ListaAristas;
     private static int nroAristas;
     public Grafo(){
-        ListaAdyacencia = new Hash(100);
+        ListaAdyacencia = new Hash(101);
         ListaAristas = new ArrayList<Arista>();
         nroAristas = 0;
     }
@@ -64,8 +64,7 @@ public class Grafo{
             for(Arista laArista: ListaAristas){
                 if(laArista != null){
                     //IDA // y // VUELTA
-                    if(laArista.getOrigen().getNombreEstacion().equals(v.getOrigen().getNombreEstacion()) && laArista.getDestino().getNombreEstacion().equals(v.getDestino().getNombreEstacion()) ||
-                            laArista.getDestino().getNombreEstacion().equals(v.getOrigen().getNombreEstacion()) && laArista.getOrigen().getNombreEstacion().equals(v.getDestino().getNombreEstacion())){
+                    if(laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getOrigen().getNombreEstacion()) && laArista.getDestino().getNombreEstacion().equalsIgnoreCase(v.getDestino().getNombreEstacion()) || laArista.getDestino().getNombreEstacion().equalsIgnoreCase(v.getOrigen().getNombreEstacion()) && laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getDestino().getNombreEstacion())){
                         return true;
                     }
                  }

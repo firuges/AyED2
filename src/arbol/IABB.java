@@ -18,6 +18,7 @@ public interface IABB <T> {
     void imprimirPostOrder();
 
     void imprimirPreOrder();
+    boolean existeNodo(T dato);
 
     boolean insertar(T dato);
 

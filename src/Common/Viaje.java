@@ -6,20 +6,21 @@
 package Common;
 
 import Grafo.Arista;
+import Grafo.Vertice;
 import java.time.LocalDateTime;
 /**
  *
  * @author Maxi
  */
-public class Viaje {
-    private Arista vOrigen;
-    private Arista vDestino;
+public class Viaje implements Comparable{
+    private Vertice vOrigen;
+    private Vertice vDestino;
     private Cliente cCliente;
     private LocalDateTime fechaHora;
     public Viaje(){
         
     }
-    public Viaje(Arista pOrigen, Arista pDestino, Cliente pCli, LocalDateTime pFecha){
+    public Viaje(Vertice pOrigen, Vertice pDestino, Cliente pCli, LocalDateTime pFecha){
         this.vOrigen = pOrigen;
         this.vDestino = pDestino;
         this.cCliente = pCli;
@@ -28,28 +29,28 @@ public class Viaje {
     /**
      * @return the vOrigen
      */
-    public Arista getvOrigen() {
+    public Vertice getvOrigen() {
         return vOrigen;
     }
 
     /**
      * @param vOrigen the vOrigen to set
      */
-    public void setvOrigen(Arista vOrigen) {
+    public void setvOrigen(Vertice vOrigen) {
         this.vOrigen = vOrigen;
     }
 
     /**
      * @return the vDestino
      */
-    public Arista getvDestino() {
+    public Vertice getvDestino() {
         return vDestino;
     }
 
     /**
      * @param vDestino the vDestino to set
      */
-    public void setvDestino(Arista vDestino) {
+    public void setvDestino(Vertice vDestino) {
         this.vDestino = vDestino;
     }
 
@@ -79,6 +80,12 @@ public class Viaje {
      */
     public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Viaje unViaje = (Viaje)o;
+        return  ((Comparable) this).compareTo(unViaje); 
     }
 }
 //String origen, String destino, int ciCliente, LocalDateTime fechaHora

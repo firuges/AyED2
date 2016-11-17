@@ -50,7 +50,10 @@ public class Arista {
         this.Destino = pDestino;
         this.Precio = precio;
     }
-
+    public Arista(Vertice pOrigen, Vertice pDestino){
+        this.Origen = pOrigen;
+        this.Destino = pDestino;
+    }
     /**
      * @return the Linea
      */

@@ -148,6 +148,7 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
         imprimirPreOrder(a.getDer());
         }
     }
+    
     @Override
     public void imprimirPostOrder(){
 		imprimirPostOrder(this.raiz);
@@ -169,6 +170,22 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
                 imprimirInOrder(a.getDer());
                 System.out.println(a.getDato()+" - ");
              }
+    }
+    @Override
+    public boolean existeNodo(T dato){
+	return existeNodo(dato, this.raiz);
+    }
+    public boolean existeNodo(T dato, nodoABB a){
+        nodoABB elNodo = new nodoABB(dato);
+        
+        if (a!=null){
+            existeNodo(dato, a.getIzq());
+            existeNodo(dato, a.getDer());
+            if(elNodo.compareTo(a.getDato()) == 0){
+            return true;
+        }
+       }
+        return false;
     }
     public int cantDeNodos(nodoABB a){
     if (a!=null){

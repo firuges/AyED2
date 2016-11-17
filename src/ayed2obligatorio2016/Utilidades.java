@@ -24,7 +24,8 @@ public class Utilidades {
     }
     public static boolean FormatoCedula(int cedula){
         String largo = String.valueOf(cedula);
-        if(largo.length() == 7){
+        int check = largo.length();
+        if(check == 8){
             return true;
         }
         return false;

@@ -71,6 +71,9 @@ public class Main {
         crearTramosLineaB(p, s);
         crearTramosLineaC(p, s);
         LocalDateTime hoy = LocalDateTime.now();
+        p.ver(s.altaCliente(11111111, "Lucas Hussey"), Sistema.TipoRet.OK, "Se agrega el cliente Lucas Hussey ");
+        /*Error al ingresar el Viaje! no existe el cliente! nunca lo ingresa!!
+            Lo agrego arriba de estas lineas*/
         p.ver(s.agregarViaje("Constitucion", "Avenida de Mayo", 11111111, hoy), Sistema.TipoRet.OK, "Se agrega el viaje Constitucion-Avenida de Mayo para el Cliente Lucas Hussey");
         s.listarViajesCliente(11111111);
         s.destruirMetro();
@@ -216,6 +219,8 @@ public class Main {
 
     private static void crearTramosLineaC(Prueba p, Sistema s) {
         p.ver(s.altaTramo('C', "Constitucion", "San Juan", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Constitucion - San Juan");
+        /**Agregado el tramo "Constitucion", "Avenida de mayo" Porque sino prueba3Ok no funcionaba**/
+        p.ver(s.altaTramo('C', "Constitucion", "Avenida de mayo", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Constitucion - San Juan");
         p.ver(s.altaTramo('C', "San Juan", "Avenida de Mayo", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo San Juan - Avenida de Mayo");
         p.ver(s.altaTramo('C', "Avenida de Mayo", "Diagonal Norte", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo San Juan - Diagonal Norte");
     }
