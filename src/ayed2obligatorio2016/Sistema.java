@@ -7,6 +7,7 @@ package ayed2obligatorio2016;
 
 import Common.Cliente;
 import Common.Servicio;
+import Common.Viaje;
 import Grafo.Arista;
 import Grafo.Grafo;
 import Grafo.Vertice;
@@ -24,6 +25,7 @@ import java.util.List;
 public class Sistema implements IMetro {
     public static Grafo MetroLineas; 
     public static ABB ListaDeClientes;
+    public static ABB ListaViajes;
     public enum TipoRet {
         OK, ERROR_1, ERROR_2, ERROR_3, ERROR_4, NO_IMPLEMENTADA
     };
@@ -32,6 +34,7 @@ public class Sistema implements IMetro {
         if(MetroLineas == null){
             MetroLineas = new Grafo();
             ListaDeClientes = new ABB();
+            ListaViajes = new ABB();
         }
         return TipoRet.OK;
     }
@@ -78,8 +81,29 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet agregarViaje(String origen, String destino, int ciCliente, LocalDateTime fechaHora) {
+        Vertice Origen = new Vertice(origen);
+        Vertice Destino = new Vertice(destino);
+        Arista OriDesti = new Arista(Origen, Destino);
+        Cliente unCli = new Cliente(ciCliente);
+        if(Utilidades.FormatoCedula(ciCliente)){
+            if(ListaDeClientes.existeNodo(unCli)){
+                if(MetroLineas.existeArista(OriDesti)){
+                    Viaje unViaje = new Viaje(Origen, Destino, unCli, fechaHora);
+                    boolean agregado = false;
+                    agregado = Sistema.ListaViajes.insertar(unViaje);
+                    if(agregado){
+                       return TipoRet.OK;
+                    }
+                    
+                }else{
+                    return TipoRet.ERROR_1;
+                }
+            }else{
+                return TipoRet.ERROR_2;
+            }
+        }
+        return TipoRet.ERROR_3;
         
-                return TipoRet.NO_IMPLEMENTADA;
     }
 
     public TipoRet agregarServicio(String estacion, String servicio) {
@@ -127,7 +151,7 @@ public class Sistema implements IMetro {
     public TipoRet altaCliente(int cedula, String nombre) {
         Cliente unCli = new Cliente(cedula, nombre);
         boolean agregado = false;
-        if(Utilidades.FormatoCedula(cedula)){
+        if(!Utilidades.FormatoCedula(cedula)){
             return TipoRet.ERROR_2;
         }else{
             agregado = Sistema.ListaDeClientes.insertar(unCli);
