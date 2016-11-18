@@ -18,7 +18,7 @@ public class Hash implements IHash  {
         return null;
     }
     @Override
-    public void Insertar(Vertice i) {
+    public Vertice Insertar(Vertice i) {
         Vertice dato = null;
         int hashPosition = this.H(i.getNombreEstacion());
         int a = -1;
@@ -28,11 +28,12 @@ public class Hash implements IHash  {
             tablaHash[hashPosition].setDato(i);
             tablaHash[hashPosition].setSiguiente(aux);
             tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
+            return i;
         }else{
             tablaHash[hashPosition].setDato(i);
             tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
+            return i;
         }
-        
     }
     public void ImprimirHash(){
         for(int i = 0; i < tablaHash.length; i++){

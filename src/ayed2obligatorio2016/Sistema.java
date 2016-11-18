@@ -54,14 +54,13 @@ public class Sistema implements IMetro {
         Vertice Destino = new Vertice();
         Destino.setNombAeropuerto(destino);
         //Agregar Vertices
-        MetroLineas.agregarVertice(Origen);
-        MetroLineas.agregarVertice(Destino);
+        Origen = MetroLineas.agregarVertice(Origen);
+        Destino = MetroLineas.agregarVertice(Destino);
         
         
         //AgregarArista
         
         Arista arista = new Arista(Origen, Destino, linea, tarifa);
-        
         if(Utilidades.DistanciaCorrecta(distancia)){
             if(Utilidades.TarifaCorrecta(tarifa)){
                 boolean agregada = MetroLineas.agregarArista(MetroLineas, arista);
@@ -88,8 +87,9 @@ public class Sistema implements IMetro {
         if(Utilidades.FormatoCedula(ciCliente)){
             nodoABB aux = ListaDeClientes.existeNodo(unCli);
             if(aux!= null){
-                if(MetroLineas.existeArista(OriDesti)){
-                    Viaje unViaje = new Viaje(Origen, Destino, unCli, fechaHora);
+                Viaje unViaje = new Viaje(Origen, Destino, unCli, fechaHora);
+                if(MetroLineas.existenEstacionesDeLaLinea(unViaje)){
+                    
                     unViaje.setcCliente((Cliente)aux.getDato());
                     boolean agregado = false;
                     agregado = Sistema.ListaViajes.insertar(unViaje);

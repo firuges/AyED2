@@ -5,9 +5,11 @@
  */
 package Grafo;
 
+import Common.Viaje;
 import Hash.Hash;
 import ListaSimple.ListaSimple;
 import Grafo.Vertice;
+import arbol.ABB;
 import java.util.ArrayList;
 /**
  *
@@ -22,11 +24,12 @@ public class Grafo{
         ListaAristas = new ArrayList<Arista>();
         nroAristas = 0;
     }
-    public void agregarVertice(Vertice v){
+    public Vertice agregarVertice(Vertice v){
         if(!existeVertice(v)){
-            ListaAdyacencia.Insertar(v);
+            v = ListaAdyacencia.Insertar(v);
             nroAristas++;
         }
+        return v;
     }
     
     public  boolean agregarArista(Grafo g, Arista a){
@@ -73,5 +76,32 @@ public class Grafo{
         
         }
         return false;
+    }
+    public  char estacionPerteneceAlinea (String estacion){
+        if(ListaAristas.size() > 0){
+            for(Arista laArista: ListaAristas){
+                if(laArista != null){
+                    //IDA // y // VUELTA
+                    if(laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(estacion) || laArista.getDestino().getNombreEstacion().equalsIgnoreCase(estacion) || laArista.getDestino().getNombreEstacion().equalsIgnoreCase(estacion) && laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(estacion)){
+                        return laArista.getLinea();
+                    }
+                 }
+        
+            }
+        
+        }
+        return 'z';
+        
+    }
+    public Boolean existenEstacionesDeLaLinea(Viaje viaje){
+        //boolean existeEstacion = losViajes.
+        String Origen = viaje.getvOrigen().getNombreEstacion();
+        String Destino = viaje.getvDestino().getNombreEstacion();
+        char Linea1 = estacionPerteneceAlinea(viaje.getvOrigen().getNombreEstacion());
+        char Linea2 = estacionPerteneceAlinea(viaje.getvDestino().getNombreEstacion());
+        if(Linea1 != Linea2 || Linea1 == 'z' || Linea2 == 'z'){
+            return false;
+        }
+        return true;
     }
 }

@@ -12,7 +12,7 @@ import Grafo.Vertice;
  * @author Maxi
  */
 public interface IHash {
-    void Insertar (Vertice i);
+    Vertice Insertar (Vertice i);
     boolean EsVacio ();
     boolean Pertenece (Vertice i);
     boolean Borrar (Vertice i);
