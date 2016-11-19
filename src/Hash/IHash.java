@@ -5,6 +5,7 @@
  */
 package Hash;
 
+import Grafo.Arista;
 import Grafo.Vertice;
 
 /**
@@ -14,6 +15,7 @@ import Grafo.Vertice;
 public interface IHash {
     Vertice Insertar (Vertice i);
     boolean EsVacio ();
-    boolean Pertenece (Vertice i);
+    Vertice Pertenece (Vertice i);
     boolean Borrar (Vertice i);
+    boolean AgregarAdyacente(Arista a);
 }

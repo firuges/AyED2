@@ -5,6 +5,7 @@
  */
 package Hash;
 
+import Grafo.Arista;
 import Grafo.Vertice;
 import Hash.IndicadorEstado.TipoRet;
 
@@ -22,13 +23,20 @@ public class Hash implements IHash  {
         Vertice dato = null;
         int hashPosition = this.H(i.getNombreEstacion());
         int a = -1;
-        if( tablaHash[hashPosition].getEstado() == TipoRet.OCUPADO ){
-            dato = (Vertice)tablaHash[hashPosition].getDato();
+        if( tablaHash[hashPosition].getEstado().equals(TipoRet.OCUPADO) ){
+            while(tablaHash[hashPosition].getEstado().equals(TipoRet.OCUPADO)){
+                hashPosition = hashPosition+1;
+            }
+            tablaHash[hashPosition].setDato(i);
+            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
+            return i;
+            /*dato = (Vertice)tablaHash[hashPosition].getDato();
             NodoHash aux = new NodoHash(dato);
             tablaHash[hashPosition].setDato(i);
             tablaHash[hashPosition].setSiguiente(aux);
-            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
-            return i;
+            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);*/
+            
+            
         }else{
             tablaHash[hashPosition].setDato(i);
             tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
@@ -43,7 +51,6 @@ public class Hash implements IHash  {
                      System.out.println("Hash: " + i + ": "+ aux.getDato());
                      aux = aux.getSiguiente();
                 }
-               
             }else{
                 System.out.println("Hash: " + i + ": "+ tablaHash[i].getDato());
             }
@@ -64,18 +71,45 @@ public class Hash implements IHash  {
     }
 
     @Override
-    public boolean Pertenece(Vertice i) {
+    public Vertice Pertenece(Vertice i) {
         Vertice Abc = null;
         int hash = H(i.getNombreEstacion());
         Abc = tablaHash[hash].getDato();
         if(Abc != null)
-            if(Abc.getNombreEstacion() != null)
-                if(Abc.getNombreEstacion().equals(i.getNombreEstacion())){
-                    return true;
-                }
-        return false;
+            while(tablaHash[hash].getEstado().equals(TipoRet.OCUPADO)){
+                if(Abc.getNombreEstacion() != null)
+                    if(Abc.getNombreEstacion().equals(i.getNombreEstacion())){
+                        return i;
+                    }
+                hash = hash+1;
+            }
+            
+        i = null;
+        return i;
     }
-
+    @Override 
+    public boolean AgregarAdyacente(Arista a){
+        boolean encontro = false;
+        int codhash = this.H(a.getOrigen().getNombreEstacion());
+        while(encontro == false){
+            if(tablaHash[codhash].getDato().getNombreEstacion().equalsIgnoreCase(a.getOrigen().getNombreEstacion()))
+                encontro = true;
+            if(!encontro)
+                codhash = codhash+1;
+        }
+        if(encontro){
+            NodoHash aux = tablaHash[codhash];
+            while(aux.getSiguiente() != null){
+                aux = aux.getSiguiente();
+                
+            }
+            NodoHash nodoAdyacente = new NodoHash(a.getDestino());
+            aux.setSiguiente(nodoAdyacente);
+            aux.getSiguiente().setEstado(TipoRet.OCUPADO);
+               
+        }
+        return encontro;
+    }
     @Override
     public boolean Borrar(Vertice i) {
         Vertice Abc = null;
@@ -99,7 +133,7 @@ public class Hash implements IHash  {
     }
     public int H(String Dato){
         int devolver = 0;
-        devolver = hallarValorASCII(Dato) % tablaHash.length+1;
+        devolver = hallarValorASCII(Dato) % (tablaHash.length+1);
         return devolver;
     }
     private int hallarValorASCII(String pString){

@@ -20,12 +20,13 @@ public class Grafo{
     public ArrayList<Arista> ListaAristas;
     private static int nroAristas;
     public Grafo(){
-        ListaAdyacencia = new Hash(101);
+        ListaAdyacencia = new Hash(100);
         ListaAristas = new ArrayList<Arista>();
         nroAristas = 0;
     }
     public Vertice agregarVertice(Vertice v){
-        if(!existeVertice(v)){
+        Vertice auxiliar = existeVertice(v);
+        if(auxiliar == null){
             v = ListaAdyacencia.Insertar(v);
             nroAristas++;
         }
@@ -56,11 +57,12 @@ public class Grafo{
     public static Boolean sonAdyacentes(Vertice a, Vertice b){
         return true;
     }
-    public  Boolean existeVertice (Vertice v){
-        if(ListaAdyacencia.Pertenece(v)){
-            return true;
+    public  Vertice existeVertice (Vertice v){
+        Vertice miV = ListaAdyacencia.Pertenece(v);
+        if(miV != null){
+            return miV;
         }
-        return false;
+        return null;
     }
     public  Boolean existeArista (Arista v){
         if(ListaAristas.size() > 0){

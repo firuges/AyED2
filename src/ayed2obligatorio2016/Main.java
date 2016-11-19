@@ -216,6 +216,9 @@ public class Main {
         p.ver(s.altaTramo('A', "Diagonal Norte", "Congreso", 0.6f,  5.5f), Sistema.TipoRet.OK, "Se agrega el tramo Diagonal Norte - Congreso");
         p.ver(s.altaTramo('A', "Congreso", "Once", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo Congreso - Once");
         p.ver(s.altaTramo('A', "Peru", "Diagonal Norte", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Peru - Diagonal Norte");
+        /*Se puede agregar el tramo de abajo, el Codigo hash de ambas es 8 como Peru, y asi comprobar que busca el siguiente Vacio
+        p.ver(s.altaTramo('A', "efgj", "defm", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Peru - Diagonal Norte");
+        */
     }
 
     private static void crearTramosLineaB(Prueba p, Sistema s) {

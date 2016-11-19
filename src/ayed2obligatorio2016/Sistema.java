@@ -64,6 +64,7 @@ public class Sistema implements IMetro {
         if(Utilidades.DistanciaCorrecta(distancia)){
             if(Utilidades.TarifaCorrecta(tarifa)){
                 boolean agregada = MetroLineas.agregarArista(MetroLineas, arista);
+                boolean AgregarAdyacente = MetroLineas.ListaAdyacencia.AgregarAdyacente(arista);
                 if(agregada){
                     return TipoRet.OK;
                 }else{
@@ -111,7 +112,8 @@ public class Sistema implements IMetro {
     public TipoRet agregarServicio(String estacion, String servicio) {
         Vertice unaEstacion = new Vertice();
         unaEstacion.setNombAeropuerto(estacion);
-        if(this.MetroLineas.existeVertice(unaEstacion)){
+        unaEstacion = this.MetroLineas.existeVertice(unaEstacion);
+        if(unaEstacion != null){
             Servicio serv = new Servicio();
             if(unaEstacion.getLosServicios()!= null){
                 unaEstacion.getLosServicios().insertarInicio(serv);
