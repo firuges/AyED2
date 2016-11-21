@@ -19,7 +19,6 @@ public class Main {
     public static void main(String[] args) {
         Sistema s = new Sistema();
         Prueba p = new Prueba();
-
         //-----------------------PRUEBAS OK---------------------------//
 
             PruebaOK_1(s,p);

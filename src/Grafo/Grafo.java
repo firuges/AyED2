@@ -5,12 +5,18 @@
  */
 package Grafo;
 
+import Cola.Cola;
 import Common.Viaje;
 import Hash.Hash;
 import ListaSimple.ListaSimple;
 import Grafo.Vertice;
+import Hash.IndicadorEstado;
+import Hash.IndicadorEstado.TipoRet;
 import Hash.NodoHash;
+import ListaSimpleGneric.ListaSimpleGeneric;
+import ListaSimpleGneric.NodoListaSimple;
 import arbol.ABB;
+import static java.lang.Integer.MAX_VALUE;
 import java.util.ArrayList;
 /**
  *
@@ -19,17 +25,17 @@ import java.util.ArrayList;
 public class Grafo{
     public Hash ListaAdyacencia;
     public ArrayList<Arista> ListaAristas;
-    private static float[] distancia;
-    private static int[]visitado;
-    private NodoHash[]Vertices;
+    
+    public static float[] distancia;
+    public static boolean[]visitado;
+    public static NodoHash[]Vertices;
+    public static NodoHash[]Previo;
+    
     private static int nroVertices;
     public Grafo(){
         ListaAdyacencia = new Hash(100);
         ListaAristas = new ArrayList<Arista>();
         nroVertices = 0;
-        distancia = new float[nroVertices];
-        visitado = new int[nroVertices];
-        Vertices = new NodoHash[nroVertices];
     }
     public Vertice agregarVertice(Vertice v){
         Vertice auxiliar = existeVertice(v);
@@ -113,4 +119,80 @@ public class Grafo{
         }
         return true;
     }
+    
+    public void initTablasDisjktra(){
+        initArrays();
+        Hash hash = new Hash(nroVertices);
+        hash.setTablaHash(ListaAdyacencia.getTablaHash());
+        ListaSimpleGeneric list = new ListaSimpleGeneric();
+        
+        for(int j = 0; j < ListaAdyacencia.getTablaHash().length; j++){
+            if(ListaAdyacencia.getTablaHash()[j].getEstado().equals(TipoRet.OCUPADO)){
+                list.insertarInicio(ListaAdyacencia.getTablaHash()[j]);
+            }
+                 
+        }
+        NodoListaSimple nodo = list.getInicio();
+        NodoHash nodohash = (NodoHash)nodo.getDato();
+        for( int i = 0 ; i < nroVertices ; ++i ){
+            Vertices[i] = new NodoHash();
+            Vertices[i] = (NodoHash)nodohash;
+            distancia[ i ] = -1;  //inicializamos todas las distancias con valor infinito
+            visitado[i] = false; //inicializamos todos los vértices como no visitado
+            Previo[ i ] = new NodoHash();      //inicializamos el previo del vértice i con -1
+            if(nodo.getSiguiente()!= null){
+                nodo = nodo.getSiguiente();
+                nodohash = (NodoHash)nodo.getDato();
+            }
+            
+        }
+    }
+    private void initArrays(){
+        distancia = new float[nroVertices];
+        visitado = new boolean[nroVertices];
+        Vertices = new NodoHash[nroVertices];
+        Previo = new NodoHash[nroVertices];
+    }
+    /*public void Ponderado(Vertice s)
+    {
+            Vertice v, w;
+            v = new Vertice();
+            w = new Vertice();
+            Cola c = new Cola(); // creo una cola
+            
+            c.enqueue(s); // meto el elemento s
+            while(!c.IsEmpty())
+            {
+                
+                v = (Vertice)c.front().getElem();
+                c.dequeue();
+                visitado[this.getPosVertice(v)] = true;
+                for(int i = 0 ; i < Vertices.length; i++){
+                    NodoHash aux = new NodoHash();
+                    aux = Vertices[i].getSiguiente();
+                    while(aux != null){
+                        w = aux.getDato();
+                        if(distancia[getPosVertice(w)] == -1)
+                        {
+                            distancia[getPosVertice(v)] += aux.getPesoAlSiguiente().getDistancia();
+                            NodoHash nodo = new NodoHash(w);
+                            Previo[getPosVertice(v)] = nodo;
+                            c.enqueue(w);
+                            
+                        }
+                        aux = aux.getSiguiente();
+                    }
+                    
+                }
+            }
+    }*/
+    private int getPosVertice(Vertice v){
+        for( int i = 0 ; i < nroVertices ; ++i ){
+            if(Vertices[i].getDato().getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion())){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
 }

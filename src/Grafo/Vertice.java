@@ -17,14 +17,21 @@ import static javafx.scene.input.KeyCode.T;
 public class Vertice {
     private String nombEstacion;
     private ListaSimpleGeneric  losServicios;
+    private int IdHash;
+    private ListaSimpleGeneric  LasAristas;
+    
     public Vertice(String pNombreEstacion){
         this.nombEstacion = pNombreEstacion;
         this.losServicios = new ListaSimpleGeneric ();
+        this.IdHash = 0;
+        this.LasAristas = new ListaSimpleGeneric();
     }
 
     public Vertice() {
         this.nombEstacion = null;
         this.losServicios = new ListaSimpleGeneric ();
+        this.IdHash = 0;
+        this.LasAristas = new ListaSimpleGeneric();
     }
 
     /**
@@ -57,6 +64,34 @@ public class Vertice {
      */
     public void setLosServicios(ListaSimpleGeneric unServicio) {
         this.losServicios = unServicio;
+    }
+
+    /**
+     * @return the IdHash
+     */
+    public int getIdHash() {
+        return IdHash;
+    }
+
+    /**
+     * @param IdHash the IdHash to set
+     */
+    public void setIdHash(int IdHash) {
+        this.IdHash = IdHash;
+    }
+
+    /**
+     * @return the LasAristas
+     */
+    public ListaSimpleGeneric getLasAristas() {
+        return LasAristas;
+    }
+
+    /**
+     * @param LasAristas the LasAristas to set
+     */
+    public void setLasAristas(ListaSimpleGeneric LasAristas) {
+        this.LasAristas = LasAristas;
     }
     
 }

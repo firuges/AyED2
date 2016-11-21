@@ -23,36 +23,33 @@ public class Hash implements IHash  {
         Vertice dato = null;
         int hashPosition = this.H(i.getNombreEstacion());
         int a = -1;
-        if( tablaHash[hashPosition].getEstado().equals(TipoRet.OCUPADO) ){
-            while(tablaHash[hashPosition].getEstado().equals(TipoRet.OCUPADO)){
+        if( getTablaHash()[hashPosition].getEstado().equals(TipoRet.OCUPADO) ){
+            while(getTablaHash()[hashPosition].getEstado().equals(TipoRet.OCUPADO)){
                 hashPosition = hashPosition+1;
             }
-            tablaHash[hashPosition].setDato(i);
-            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
+            i.setIdHash(hashPosition);
+            getTablaHash()[hashPosition].setDato(i);
+            getTablaHash()[hashPosition].setEstado(TipoRet.OCUPADO);
+            
             return i;
-            /*dato = (Vertice)tablaHash[hashPosition].getDato();
-            NodoHash aux = new NodoHash(dato);
-            tablaHash[hashPosition].setDato(i);
-            tablaHash[hashPosition].setSiguiente(aux);
-            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);*/
-            
-            
         }else{
-            tablaHash[hashPosition].setDato(i);
-            tablaHash[hashPosition].setEstado(TipoRet.OCUPADO);
+            i.setIdHash(hashPosition);
+            getTablaHash()[hashPosition].setDato(i);
+            getTablaHash()[hashPosition].setEstado(TipoRet.OCUPADO);
+            
             return i;
         }
     }
     public void ImprimirHash(){
-        for(int i = 0; i < tablaHash.length; i++){
-            if(tablaHash[i].getSiguiente()!= null){
-                NodoHash aux = tablaHash[i];
+        for(int i = 0; i < getTablaHash().length; i++){
+            if(getTablaHash()[i].getSiguiente()!= null){
+                NodoHash aux = getTablaHash()[i];
                 while(aux != null){
                      System.out.println("Hash: " + i + ": "+ aux.getDato());
                      aux = aux.getSiguiente();
                 }
             }else{
-                System.out.println("Hash: " + i + ": "+ tablaHash[i].getDato());
+                System.out.println("Hash: " + i + ": "+ getTablaHash()[i].getDato());
             }
         }
     }
@@ -74,9 +71,9 @@ public class Hash implements IHash  {
     public Vertice Pertenece(Vertice i) {
         Vertice Abc = null;
         int hash = H(i.getNombreEstacion());
-        Abc = tablaHash[hash].getDato();
+        Abc = getTablaHash()[hash].getDato();
         if(Abc != null)
-            while(tablaHash[hash].getEstado().equals(TipoRet.OCUPADO)){
+            while(getTablaHash()[hash].getEstado().equals(TipoRet.OCUPADO)){
                 if(Abc.getNombreEstacion() != null)
                     if(Abc.getNombreEstacion().equals(i.getNombreEstacion())){
                         return i;
@@ -92,13 +89,13 @@ public class Hash implements IHash  {
         boolean encontro = false;
         int codhash = this.H(a.getOrigen().getNombreEstacion());
         while(encontro == false){
-            if(tablaHash[codhash].getDato().getNombreEstacion().equalsIgnoreCase(a.getOrigen().getNombreEstacion()))
+            if(getTablaHash()[codhash].getDato().getNombreEstacion().equalsIgnoreCase(a.getOrigen().getNombreEstacion()))
                 encontro = true;
             if(!encontro)
                 codhash = codhash+1;
         }
         if(encontro){
-            NodoHash aux = tablaHash[codhash];
+            NodoHash aux = getTablaHash()[codhash];
             while(aux.getSiguiente() != null){
                 aux = aux.getSiguiente();
                 
@@ -106,7 +103,6 @@ public class Hash implements IHash  {
             NodoHash nodoAdyacente = new NodoHash(a.getDestino());
             aux.setSiguiente(nodoAdyacente);
             aux.getSiguiente().setEstado(TipoRet.OCUPADO);
-            aux.setPesoAlSiguiente(a);
         }
         return encontro;
     }
@@ -114,11 +110,11 @@ public class Hash implements IHash  {
     public boolean Borrar(Vertice i) {
         Vertice Abc = null;
         int hash = H(i.getNombreEstacion());
-        Abc = tablaHash[hash].getDato();
+        Abc = getTablaHash()[hash].getDato();
         
-        NodoHash aux = tablaHash[hash];
+        NodoHash aux = getTablaHash()[hash];
         if(Abc.equals(i)){
-            tablaHash[hash] = tablaHash[hash].getSiguiente();
+            getTablaHash()[hash] = getTablaHash()[hash].getSiguiente();
             return true;
         }
         return false;
@@ -133,7 +129,7 @@ public class Hash implements IHash  {
     }
     public int H(String Dato){
         int devolver = 0;
-        devolver = hallarValorASCII(Dato) % (tablaHash.length+1);
+        devolver = hallarValorASCII(Dato) % (getTablaHash().length+1);
         return devolver;
     }
     private int hallarValorASCII(String pString){
@@ -143,6 +139,20 @@ public class Hash implements IHash  {
             //System.out.println(pString.charAt(x) + " = " + pString.codePointAt(x));
         }
         return sumaASCII;
+    }
+
+    /**
+     * @return the tablaHash
+     */
+    public NodoHash[] getTablaHash() {
+        return tablaHash;
+    }
+
+    /**
+     * @param tablaHash the tablaHash to set
+     */
+    public void setTablaHash(NodoHash[] tablaHash) {
+        this.tablaHash = tablaHash;
     }
 }
 

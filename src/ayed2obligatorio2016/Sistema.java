@@ -53,15 +53,18 @@ public class Sistema implements IMetro {
         //Agregar Estacion 2
         Vertice Destino = new Vertice();
         Destino.setNombAeropuerto(destino);
-        //Agregar Vertices
-        Origen = MetroLineas.agregarVertice(Origen);
-        Destino = MetroLineas.agregarVertice(Destino);
-        
         
         //AgregarArista
         
         Arista arista = new Arista(Origen, Destino, linea ,distancia, tarifa);
         Arista aristaRegreso = new Arista(Destino, Origen, linea ,distancia, tarifa);
+        //Agregar Vertices
+        Origen.getLasAristas().insertarInicio(arista);
+        Origen.getLasAristas().insertarInicio(aristaRegreso);
+        Destino.getLasAristas().insertarInicio(arista);
+        Destino.getLasAristas().insertarInicio(aristaRegreso);
+        Origen = MetroLineas.agregarVertice(Origen);
+        Destino = MetroLineas.agregarVertice(Destino);
         if(Utilidades.DistanciaCorrecta(distancia)){
             if(Utilidades.TarifaCorrecta(tarifa)){
                 boolean agregada = MetroLineas.agregarArista(MetroLineas, arista);
@@ -177,6 +180,7 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet caminoMasCorto(String origen, String destino) {
+        Sistema.MetroLineas.initTablasDisjktra();
                 return TipoRet.NO_IMPLEMENTADA;
     }
 
