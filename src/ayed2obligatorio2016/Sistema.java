@@ -60,12 +60,14 @@ public class Sistema implements IMetro {
         
         //AgregarArista
         
-        Arista arista = new Arista(Origen, Destino, linea, tarifa);
+        Arista arista = new Arista(Origen, Destino, linea ,distancia, tarifa);
+        Arista aristaRegreso = new Arista(Destino, Origen, linea ,distancia, tarifa);
         if(Utilidades.DistanciaCorrecta(distancia)){
             if(Utilidades.TarifaCorrecta(tarifa)){
                 boolean agregada = MetroLineas.agregarArista(MetroLineas, arista);
-                boolean AgregarAdyacente = MetroLineas.ListaAdyacencia.AgregarAdyacente(arista);
                 if(agregada){
+                    boolean AgregarAdyacente = MetroLineas.ListaAdyacencia.AgregarAdyacente(arista);
+                    boolean AgregarAdyacente2 = MetroLineas.ListaAdyacencia.AgregarAdyacente(aristaRegreso);
                     return TipoRet.OK;
                 }else{
                     return TipoRet.ERROR_1;

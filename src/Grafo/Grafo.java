@@ -9,6 +9,7 @@ import Common.Viaje;
 import Hash.Hash;
 import ListaSimple.ListaSimple;
 import Grafo.Vertice;
+import Hash.NodoHash;
 import arbol.ABB;
 import java.util.ArrayList;
 /**
@@ -18,17 +19,23 @@ import java.util.ArrayList;
 public class Grafo{
     public Hash ListaAdyacencia;
     public ArrayList<Arista> ListaAristas;
-    private static int nroAristas;
+    private static float[] distancia;
+    private static int[]visitado;
+    private NodoHash[]Vertices;
+    private static int nroVertices;
     public Grafo(){
         ListaAdyacencia = new Hash(100);
         ListaAristas = new ArrayList<Arista>();
-        nroAristas = 0;
+        nroVertices = 0;
+        distancia = new float[nroVertices];
+        visitado = new int[nroVertices];
+        Vertices = new NodoHash[nroVertices];
     }
     public Vertice agregarVertice(Vertice v){
         Vertice auxiliar = existeVertice(v);
         if(auxiliar == null){
             v = ListaAdyacencia.Insertar(v);
-            nroAristas++;
+            nroVertices++;
         }
         return v;
     }

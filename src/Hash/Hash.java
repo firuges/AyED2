@@ -106,7 +106,7 @@ public class Hash implements IHash  {
             NodoHash nodoAdyacente = new NodoHash(a.getDestino());
             aux.setSiguiente(nodoAdyacente);
             aux.getSiguiente().setEstado(TipoRet.OCUPADO);
-               
+            aux.setPesoAlSiguiente(a);
         }
         return encontro;
     }

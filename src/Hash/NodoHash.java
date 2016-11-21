@@ -5,6 +5,7 @@
  */
 package Hash;
 
+import Grafo.Arista;
 import Grafo.Vertice;
 import Hash.IndicadorEstado.TipoRet;
 
@@ -16,6 +17,7 @@ public class NodoHash  implements Comparable {
     
     private TipoRet estado;
     private Vertice dato;
+    private Arista pesoAlSiguiente;
     private NodoHash  siguiente;
 
     public NodoHash(Vertice dato) {
@@ -63,6 +65,20 @@ public class NodoHash  implements Comparable {
     @Override
     public int compareTo(Object o) {
         return  ((Comparable) this.getDato()).compareTo(o); 
+    }
+
+    /**
+     * @return the pesoAlSiguiente
+     */
+    public Arista getPesoAlSiguiente() {
+        return pesoAlSiguiente;
+    }
+
+    /**
+     * @param pesoAlSiguiente the pesoAlSiguiente to set
+     */
+    public void setPesoAlSiguiente(Arista pesoAlSiguiente) {
+        this.pesoAlSiguiente = pesoAlSiguiente;
     }
     
     

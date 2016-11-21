@@ -14,7 +14,7 @@ public class Arista {
     private float Precio;
     private Vertice Origen;
     private Vertice Destino;
-    private double Distancia;//peso
+    private float Distancia;//peso
 
     /**
      * @return the Origen
@@ -44,11 +44,12 @@ public class Arista {
         this.Destino = Destino;
     }
     public Arista(){}
-    public Arista(Vertice pOrigen, Vertice pDestino, char linea, float precio){
+    public Arista(Vertice pOrigen, Vertice pDestino, char linea, float distancia, float precio){
         this.Linea = linea;
         this.Origen = pOrigen;
         this.Destino = pDestino;
         this.Precio = precio;
+        this.Distancia = distancia;
     }
     public Arista(Vertice pOrigen, Vertice pDestino){
         this.Origen = pOrigen;
@@ -80,5 +81,19 @@ public class Arista {
      */
     public void setPrecio(float Precio) {
         this.Precio = Precio;
+    }
+
+    /**
+     * @return the Distancia
+     */
+    public float getDistancia() {
+        return Distancia;
+    }
+
+    /**
+     * @param Distancia the Distancia to set
+     */
+    public void setDistancia(float Distancia) {
+        this.Distancia = Distancia;
     }
 }
