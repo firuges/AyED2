@@ -8,6 +8,7 @@ package Grafo;
 import Common.Servicio;
 import ListaSimple.ListaSimple;
 import ListaSimpleGneric.ListaSimpleGeneric;
+import ListaSimpleGneric.NodoListaSimple;
 import static javafx.scene.input.KeyCode.T;
 
 /**
@@ -93,5 +94,13 @@ public class Vertice {
     public void setLasAristas(ListaSimpleGeneric LasAristas) {
         this.LasAristas = LasAristas;
     }
-    
+    public int cantAristas(ListaSimpleGeneric LasAristas){
+        int cant = 0;
+        NodoListaSimple aux = LasAristas.getInicio();
+        while(aux != null){
+            cant++;
+            aux = aux.getSiguiente();
+        }
+        return cant;
+    }
 }

@@ -32,6 +32,9 @@ public class Cola<T> implements ICola<T> {
     public T dequeue(){ // quitar un elemento de la cola, el primero en entrar el primero en salir
         Nodo<T> aux = inicio;
         if(!IsEmpty()){
+            if(inicio.elem.equals(fin.elem)){
+                fin = inicio.getSiguiente();
+            }
             inicio = inicio.getSiguiente();
             return aux.getElem();
         }else{

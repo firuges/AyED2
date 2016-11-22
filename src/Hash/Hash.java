@@ -76,7 +76,8 @@ public class Hash implements IHash  {
             while(getTablaHash()[hash].getEstado().equals(TipoRet.OCUPADO)){
                 if(Abc.getNombreEstacion() != null)
                     if(Abc.getNombreEstacion().equals(i.getNombreEstacion())){
-                        return i;
+                        
+                        return Abc;
                     }
                 hash = hash+1;
             }
