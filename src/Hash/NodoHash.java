@@ -5,20 +5,14 @@
  */
 package Hash;
 
-import Grafo.Arista;
 import Grafo.Vertice;
 import Hash.IndicadorEstado.TipoRet;
-import ListaSimpleGneric.ListaSimpleGeneric;
 
 /**
  *
  * @author Maxi
  */
 public class NodoHash  implements Comparable {
-    private String nombEstacion;
-    private ListaSimpleGeneric  losServicios;
-    private int IdHash;
-    private ListaSimpleGeneric  LasAristas;
     private TipoRet estado;
     private Vertice dato;
     private NodoHash  siguiente;
