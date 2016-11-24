@@ -123,7 +123,6 @@ public class Grafo{
             if(Inicial.getIdHash() == i){
                 TablaCaminoCorto[i] =  new Vertice();
                 TablaCaminoCorto[i] = tabla[i].getDato();
-                TablaCaminoCorto[i] =  tabla[i].getDato();
                 TablaCaminoCorto[i].setConocido(false);
                 TablaCaminoCorto[i].setDistancia(0);
                 TablaCaminoCorto[i].setPrecio(0);
@@ -147,8 +146,10 @@ public class Grafo{
         w = new Vertice();
         NodoHash [] tabla = Sistema.MetroLineas.ListaAdyacencia.getTablaHash();
 	for(int i=0; i < nroVertices; i++){
+                
 		v = verticeConDistanciaMasCortaDesconocido();
                 T[v.getIdHash()].setConocido(true);
+                System.out.println("Vertice " + v.getNombreEstacion() + " Padre");
                 //capturo las aristas del vertice
                 ListaSimpleGeneric list = v.getLasAristas();
                 int cantAdyacentes = v.cantAristas(list);
@@ -163,7 +164,7 @@ public class Grafo{
                         T[hash.H(w.getNombreEstacion())].setDistancia(T[hash.H(v.getNombreEstacion())].getDistancia() + this.c(v, w, v.getLasAristas()));
                         T[hash.H(w.getNombreEstacion())].setPv(v);
                     }
-                    
+                    System.out.println("Vertice " + w.getNombreEstacion() + " Adyacente");
                     
             }
 
