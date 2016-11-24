@@ -15,6 +15,10 @@ import Hash.IndicadorEstado.TipoRet;
  */
 public class Hash implements IHash  {
     private NodoHash [] tablaHash;
+
+    public Hash() {
+        
+    }
     public Hash Vacio() {
         return null;
     }

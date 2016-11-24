@@ -20,7 +20,10 @@ public class Vertice {
     private ListaSimpleGeneric  losServicios;
     private int IdHash;
     private ListaSimpleGeneric  LasAristas;
-    
+    private boolean conocido;
+    private float Distancia; 
+    private Vertice Pv;
+    private float precio;
     public Vertice(String pNombreEstacion){
         this.nombEstacion = pNombreEstacion;
         this.losServicios = new ListaSimpleGeneric ();
@@ -102,5 +105,61 @@ public class Vertice {
             aux = aux.getSiguiente();
         }
         return cant;
+    }
+
+    /**
+     * @return the conocido
+     */
+    public boolean isConocido() {
+        return conocido;
+    }
+
+    /**
+     * @param conocido the conocido to set
+     */
+    public void setConocido(boolean conocido) {
+        this.conocido = conocido;
+    }
+
+    /**
+     * @return the Distancia
+     */
+    public float getDistancia() {
+        return Distancia;
+    }
+
+    /**
+     * @param Distancia the Distancia to set
+     */
+    public void setDistancia(float Distancia) {
+        this.Distancia = Distancia;
+    }
+
+    /**
+     * @return the Pv
+     */
+    public Vertice getPv() {
+        return Pv;
+    }
+
+    /**
+     * @param Pv the Pv to set
+     */
+    public void setPv(Vertice Pv) {
+        this.Pv = Pv;
+    }
+
+    /**
+     * @return the precio
+     */
+    public float getPrecio() {
+        return precio;
+    }
+
+    /**
+     * @param precio the precio to set
+     */
+    public void setPrecio(float precio) {
+        this.precio = precio;
     }
 }
