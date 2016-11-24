@@ -27,12 +27,12 @@ import java.util.ArrayList;
 public class Grafo{
     public Hash ListaAdyacencia;
     public ArrayList<Arista> ListaAristas;
-    public static Ponderada[] TablaCaminoCorto;
+    public static Vertice[] TablaCaminoCorto;
     private static int nroVertices;
     public Grafo(){
         ListaAdyacencia = new Hash(100);
         ListaAristas = new ArrayList<Arista>();
-        TablaCaminoCorto = new Ponderada[100];
+        TablaCaminoCorto = new Vertice[100];
         nroVertices = 0;
     }
     public Vertice agregarVertice(Vertice v){
@@ -40,8 +40,11 @@ public class Grafo{
         if(auxiliar == null){
             v = ListaAdyacencia.Insertar(v);
             nroVertices++;
+            return v;
+        }else{
+            return auxiliar;
         }
-        return v;
+        
     }
     
     public  boolean agregarArista(Grafo g, Arista a){
@@ -115,15 +118,19 @@ public class Grafo{
     }
     public void initArrays(Vertice Inicial){
         int largo = Sistema.MetroLineas.ListaAdyacencia.getTablaHash().length;
+        NodoHash [] tabla = Sistema.MetroLineas.ListaAdyacencia.getTablaHash();
         for(int i = 0; i < largo; i++){
             if(Inicial.getIdHash() == i){
-                TablaCaminoCorto[i] =  new Ponderada();
-                TablaCaminoCorto[i].setConocido(true);
+                TablaCaminoCorto[i] =  new Vertice();
+                TablaCaminoCorto[i] = tabla[i].getDato();
+                TablaCaminoCorto[i] =  tabla[i].getDato();
+                TablaCaminoCorto[i].setConocido(false);
                 TablaCaminoCorto[i].setDistancia(0);
                 TablaCaminoCorto[i].setPrecio(0);
                 TablaCaminoCorto[i].setPv(null);
             }else{
-                TablaCaminoCorto[i] =  new Ponderada();
+                TablaCaminoCorto[i] =  new Vertice();
+                TablaCaminoCorto[i] = tabla[i].getDato();
                 TablaCaminoCorto[i].setConocido(false);
                 TablaCaminoCorto[i].setDistancia(Integer.MAX_VALUE);
                 TablaCaminoCorto[i].setPrecio(0);
@@ -134,63 +141,60 @@ public class Grafo{
         }
         Ponderado(TablaCaminoCorto, Inicial);
     }
-    public void Ponderado( Ponderada[] T, Vertice actual)
-    {
-            Vertice Actual, w;
-            Actual = new Vertice();
-            w = new Vertice();
-            Cola c = new Cola(); // creo una cola
-            
-            c.enqueue(actual); // meto el elemento s
-            while(!c.IsEmpty())
-            {
-                //Vertice actual
-                Actual = (Vertice)c.front().getElem();
-                //Quitarlo de la cola
-                c.dequeue();
-                //Hacer el Vertice actual como conocido
-                T[Actual.getIdHash()].setConocido(true);
+    public void Ponderado(Vertice[] T, Vertice actual){
+        Vertice v, w;
+        Hash hash = this.ListaAdyacencia;
+        w = new Vertice();
+        NodoHash [] tabla = Sistema.MetroLineas.ListaAdyacencia.getTablaHash();
+	for(int i=0; i < nroVertices; i++){
+		v = verticeConDistanciaMasCortaDesconocido();
+                T[v.getIdHash()].setConocido(true);
                 //capturo las aristas del vertice
-                ListaSimpleGeneric list = Actual.getLasAristas();
-                //capturo la primera arista
-                NodoListaSimple nodo = list.getInicio();
-                //capturo la primera arista
-                Arista arista = (Arista)nodo.getDato();
-                //recorro cada Vertice Destino de las aristas
-                int cantAdyacentes = Actual.cantAristas(list);
+                ListaSimpleGeneric list = v.getLasAristas();
+                int cantAdyacentes = v.cantAristas(list);
                 //for(w = Actual.getSiguiente(); w != null; w = w.getSiguiente())
-                for(int i = 0; i < cantAdyacentes; i ++)
+                NodoHash nodo = new NodoHash();
+                nodo = tabla[hash.H(v.getNombreEstacion())];
+                for(int j = 0; j < cantAdyacentes; j ++)
                 {
-                    Arista aux = new Arista();
-                    //Vertice Adyacente
-                    w = arista.getDestino();
-                    if(T[w.getIdHash()].getDistancia() == Integer.MAX_VALUE)
-                    {
-                        T[w.getIdHash()].setDistancia(T[Actual.getIdHash()].getDistancia() + arista.getDistancia());
-                        T[w.getIdHash()].setConocido(true);
-                        T[w.getIdHash()].setPv(actual);
-                        c.enqueue(w);
-                    }else{
-                        if(arista.getDistancia() < aux.getDistancia()){
-                            T[w.getIdHash()].setDistancia(T[Actual.getIdHash()].getDistancia() - aux.getDistancia());
-                            T[w.getIdHash()].setDistancia(T[Actual.getIdHash()].getDistancia() + arista.getDistancia());
-                            T[w.getIdHash()].setConocido(true);
-                            T[w.getIdHash()].setPv(actual);
-                            c.enqueue(w);
-                        }
-                    }
-                    aux = arista;
                     nodo = nodo.getSiguiente();
-                    if(nodo != null){
-                        arista = (Arista)nodo.getDato();
-                        w = arista.getDestino();
-                        
+                    w = nodo.getDato();
+                    if(T[hash.H(w.getNombreEstacion())].isConocido() == false && T[hash.H(v.getNombreEstacion())].getDistancia() + this.c(v, w, v.getLasAristas()) < T[hash.H(w.getNombreEstacion())].getDistancia()){
+                        T[hash.H(w.getNombreEstacion())].setDistancia(T[hash.H(v.getNombreEstacion())].getDistancia() + this.c(v, w, v.getLasAristas()));
+                        T[hash.H(w.getNombreEstacion())].setPv(v);
                     }
                     
-                }
+                    
             }
-            imprimir();
+
+        }
     }
+    private float c(Vertice v, Vertice w, ListaSimpleGeneric aristas){
+        NodoListaSimple nodo = new NodoListaSimple();
+        nodo.setDato(aristas.getInicio().getDato());
+        while(nodo != null){
+            Arista laArista = new Arista();
+            laArista = (Arista)nodo.getDato();
+            if(laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion()) && laArista.getDestino().getNombreEstacion().equalsIgnoreCase(w.getNombreEstacion()) || laArista.getDestino().getNombreEstacion().equalsIgnoreCase(w.getNombreEstacion()) && laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion())){
+                        return laArista.getDistancia();
+                    }
+           nodo = nodo.getSiguiente();
+        }
+         return -1;
+    }
+        
+    
+    public Vertice verticeConDistanciaMasCortaDesconocido(){
+        float distancia = 0;
+        for(int i=0; i < TablaCaminoCorto.length; i++){
+            if(TablaCaminoCorto[i].getDistancia() < Integer.MAX_VALUE && !TablaCaminoCorto[i].isConocido()){
+                return TablaCaminoCorto[i];
+                
+            }
+        }
+        return null;
+    }
+    
     private void imprimir(){
         for(int i = 0 ; i < TablaCaminoCorto.length; i++){
             if(TablaCaminoCorto[i].getPv() == null){

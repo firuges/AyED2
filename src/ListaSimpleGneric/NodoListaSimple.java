@@ -19,6 +19,11 @@ public class NodoListaSimple <T> implements Comparable<T>{
         this.siguiente = null;
     }
 
+    public NodoListaSimple() {
+        dato = null;
+        this.siguiente = null;
+    }
+
     public T getDato() {
         return dato;
     }

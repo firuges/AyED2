@@ -59,10 +59,11 @@ public class Sistema implements IMetro {
         Arista arista = new Arista(Origen, Destino, linea ,distancia, tarifa);
         Arista aristaRegreso = new Arista(Destino, Origen, linea ,distancia, tarifa);
         //Agregar Vertices
-        Origen.getLasAristas().insertarInicio(arista);
-        Destino.getLasAristas().insertarInicio(aristaRegreso);
+        
         Origen = MetroLineas.agregarVertice(Origen);
         Destino = MetroLineas.agregarVertice(Destino);
+        Origen.getLasAristas().insertarInicio(arista);
+        Destino.getLasAristas().insertarInicio(aristaRegreso);
         if(Utilidades.DistanciaCorrecta(distancia)){
             if(Utilidades.TarifaCorrecta(tarifa)){
                 boolean agregada = MetroLineas.agregarArista(MetroLineas, arista);
