@@ -179,10 +179,10 @@ public class Sistema implements IMetro {
 
     public TipoRet caminoMasCorto(String origen, String destino) {
         
-        Vertice unVertice = new Vertice();;
+        /*Vertice unVertice = new Vertice();;
         unVertice.setNombAeropuerto(origen);
         unVertice = Sistema.MetroLineas.existeVertice(unVertice);
-        Sistema.MetroLineas.initArrays(unVertice);
+        Sistema.MetroLineas.initArrays(unVertice);*/
                 return TipoRet.NO_IMPLEMENTADA;
     }
 

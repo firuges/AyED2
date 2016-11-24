@@ -74,6 +74,9 @@ public class Main {
 	LocalDateTime ayer = LocalDateTime.parse(fechaInicialHora);
         String fechaInicialHora2 = "2016-11-09T12:05:30.756";
 	LocalDateTime SemanaPasada = LocalDateTime.parse(fechaInicialHora2);
+        
+        String fechaInicialHora3 = "2015-11-09T12:05:30.756";
+	LocalDateTime AñoPasado = LocalDateTime.parse(fechaInicialHora3);
         p.ver(s.altaCliente(11111111, "Lucas Hussey"), Sistema.TipoRet.OK, "Se agrega el cliente Lucas Hussey ");
         /*Error al ingresar el Viaje! no existe el cliente! nunca lo ingresa!!
             Lo agrego arriba de estas lineas*/
@@ -81,6 +84,7 @@ public class Main {
         /*Agregados para comprobacion*/
         p.ver(s.agregarViaje("Avenida de Mayo", "San Juan", 11111111, ayer), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
         p.ver(s.agregarViaje("Avenida de Mayo", "San Juan", 11111111, SemanaPasada), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
+        p.ver(s.agregarViaje("Avenida de Mayo", "San Juan", 11111111, AñoPasado), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
         /***////
         s.listarViajesCliente(11111111);
         s.destruirMetro();
