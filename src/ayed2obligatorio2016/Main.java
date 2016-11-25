@@ -235,6 +235,7 @@ public class Main {
         p.ver(s.altaTramo('C', "Constitucion", "San Juan", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Constitucion - San Juan");
         p.ver(s.altaTramo('C', "San Juan", "Avenida de Mayo", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo San Juan - Avenida de Mayo");
         p.ver(s.altaTramo('C', "Avenida de Mayo", "Diagonal Norte", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo San Juan - Diagonal Norte");
+        p.ver(s.altaTramo('C', "Constitucion", "Bulnes", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Constitucion - Bulnes");
         /**Agregado el tramo "Constitucion", "Avenida de mayo" Porque sino prueba3Ok no funcionaba**/
         //p.ver(s.altaTramo('C', "Diagonal Norte", "Bulnes", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Constitucion - Bulnes");
     }
