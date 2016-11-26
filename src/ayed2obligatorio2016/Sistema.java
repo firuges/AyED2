@@ -6,11 +6,13 @@
 package ayed2obligatorio2016;
 
 import Common.Cliente;
+import Common.ClienteListar;
 import Common.Servicio;
 import Common.Viaje;
 import Grafo.Arista;
 import Grafo.Grafo;
 import Grafo.Vertice;
+import Hash.Hash;
 import ListaSimpleGneric.ListaSimpleGeneric;
 import arbol.ABB;
 import arbol.nodoABB;
@@ -24,7 +26,8 @@ import java.util.List;
  */
 public class Sistema implements IMetro {
     public static Grafo MetroLineas; 
-    public static ABB ListaDeClientes;
+    public static ABB ListaDeClientesXcedula;
+    public static ABB ListaDeClientesXnombre;
     public static ABB ListaViajes;
     public enum TipoRet {
         OK, ERROR_1, ERROR_2, ERROR_3, ERROR_4, NO_IMPLEMENTADA
@@ -33,7 +36,8 @@ public class Sistema implements IMetro {
     public TipoRet crearMetro() {
         if(MetroLineas == null){
             MetroLineas = new Grafo();
-            ListaDeClientes = new ABB();
+            ListaDeClientesXcedula = new ABB();
+            ListaDeClientesXnombre = new ABB();
             ListaViajes = new ABB();
         }
         return TipoRet.OK;
@@ -90,7 +94,7 @@ public class Sistema implements IMetro {
         Arista OriDesti = new Arista(Origen, Destino);
         Cliente unCli = new Cliente(ciCliente);
         if(Utilidades.FormatoCedula(ciCliente)){
-            nodoABB aux = ListaDeClientes.existeNodo(unCli);
+            nodoABB aux = ListaDeClientesXcedula.existeNodo(unCli);
             if(aux!= null){
                 Viaje unViaje = new Viaje(Origen, Destino, unCli, fechaHora);
                 if(MetroLineas.existenEstacionesDeLaLinea(unViaje)){
@@ -130,9 +134,9 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet listarClientes() {
-        nodoABB nodo = Sistema.ListaDeClientes.getRaiz();
+        nodoABB nodo = Sistema.ListaDeClientesXnombre.getRaiz();
         if(nodo != null)
-            Sistema.ListaDeClientes.imprimirPreOrder();
+            Sistema.ListaDeClientesXnombre.imprimirPreOrder();
         return TipoRet.OK;
     }
 
@@ -142,7 +146,7 @@ public class Sistema implements IMetro {
             Cliente unCli = new Cliente();
             unCli.setCedula(ciCliente);
             nodoABB elNodo = new nodoABB(unCli);
-            elNodo = Sistema.ListaDeClientes.existeNodo(unCli);
+            elNodo = Sistema.ListaDeClientesXcedula.existeNodo(unCli);
             
             if(elNodo != null){
                 unCli = (Cliente)elNodo.getDato();
@@ -180,28 +184,55 @@ public class Sistema implements IMetro {
 
     public TipoRet caminoMasCorto(String origen, String destino) {
         
-        Vertice unVertice = new Vertice();
-        unVertice.setNombAeropuerto(origen);
-        unVertice = Sistema.MetroLineas.existeVertice(unVertice);
-        if(unVertice != null){
-            Sistema.MetroLineas.initArrays(unVertice);
+        Vertice Origen = new Vertice();
+        Origen.setNombAeropuerto(origen);
+        Vertice Destino = new Vertice();
+        Destino.setNombAeropuerto(destino);
+        Origen = Sistema.MetroLineas.existeVertice(Origen);
+        Destino = Sistema.MetroLineas.existeVertice(Destino);
+        if(Origen == null){
+            return TipoRet.ERROR_1;
         }
-        
-                return TipoRet.NO_IMPLEMENTADA;
+        if(Destino == null){
+            return TipoRet.ERROR_2;
+        }
+        Vertice [] T = Sistema.MetroLineas.initArrays(Origen);
+        System.out.println("Imprimiendo Camino mas Corto desde: " + Origen.getNombreEstacion() + " a "+ Destino.getNombreEstacion());
+        float PrecioFinal = Sistema.MetroLineas.Camino_Mas_Corto(T, Destino);
+        return TipoRet.OK;
     }
+    
 
     public TipoRet precioBoleto(String origen, String destino) {
-                return TipoRet.NO_IMPLEMENTADA;
+        Vertice Origen = new Vertice();
+        Origen.setNombAeropuerto(origen);
+        Vertice Destino = new Vertice();
+        Destino.setNombAeropuerto(destino);
+        Origen = Sistema.MetroLineas.existeVertice(Origen);
+        Destino = Sistema.MetroLineas.existeVertice(Destino);
+        if(Origen == null){
+            return TipoRet.ERROR_1;
+        }
+        if(Destino == null){
+            return TipoRet.ERROR_2;
+        }
+        Vertice [] T = Sistema.MetroLineas.initArrays(Origen);
+        float PrecioFinal = Sistema.MetroLineas.Camino_Mas_Corto(T, Destino);
+        System.out.println("Precio del boleto de "+ origen +" a "+destino +" es: "+ PrecioFinal);
+        return TipoRet.OK;
     }
 
     public TipoRet altaCliente(int cedula, String nombre) {
         Cliente unCli = new Cliente(cedula, nombre);
+        ClienteListar unCli2 = new ClienteListar(cedula,nombre);
         boolean agregado = false;
+        boolean agregado2 = false;
         if(!Utilidades.FormatoCedula(cedula)){
             return TipoRet.ERROR_2;
         }else{
-            agregado = Sistema.ListaDeClientes.insertar(unCli);
-            if(!agregado){
+            agregado = Sistema.ListaDeClientesXnombre.insertar(unCli2);// POR NOMBRE
+            agregado2 = Sistema.ListaDeClientesXcedula.insertar(unCli);//POR CEDULA
+            if(!agregado || !agregado2){
                return TipoRet.ERROR_1;
             }
         }
@@ -209,17 +240,34 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet bajaCliente(int cedula) {
-        Cliente unCli = new Cliente(cedula);
-        boolean eliminado = false;
         if(!Utilidades.FormatoCedula(cedula)){
             return TipoRet.ERROR_2;
         }
-        eliminado = Sistema.ListaDeClientes.eliminar(unCli);
+        Cliente unCli = new Cliente(cedula);
+        ClienteListar unCli2 = new ClienteListar(cedula);
+        nodoABB nodo = new nodoABB();
+        nodo.setDato(unCli);
+        nodo = ListaDeClientesXcedula.existeNodo(nodo);
+        boolean eliminado = false;
+        boolean eliminado2 = false;
+        if(nodo != null){
+            unCli = (Cliente) nodo.getDato();
+            unCli2.setCedula(unCli.getCedula());
+            unCli2.setNombre(unCli.getNombre());
+            eliminado2 = Sistema.ListaDeClientesXcedula.eliminar(unCli); //POR CEDULA
+            eliminado = Sistema.ListaDeClientesXnombre.eliminar(unCli2); // POR NOMBRE
+        }
+        
+        
+        
+        
         
         if(eliminado){
             return TipoRet.OK;
+        }else{
+            return TipoRet.ERROR_1;
         }
-        return TipoRet.ERROR_1;
+        
                 
     }
 }

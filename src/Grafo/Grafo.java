@@ -6,7 +6,6 @@
 package Grafo;
 
 import Cola.Cola;
-import Common.Ponderada;
 import Common.Viaje;
 import Hash.Hash;
 import ListaSimple.ListaSimple;
@@ -116,7 +115,8 @@ public class Grafo{
         }
         return true;
     }
-    public void initArrays(Vertice Inicial){
+    public Vertice[] initArrays(Vertice Inicial){
+        TablaCaminoCorto = new Vertice[100];
         int largo = Sistema.MetroLineas.ListaAdyacencia.getTablaHash().length;
         NodoHash [] tabla = Sistema.MetroLineas.ListaAdyacencia.getTablaHash();
         for(int i = 0; i < largo; i++){
@@ -138,9 +138,9 @@ public class Grafo{
             
             
         }
-        Ponderado(TablaCaminoCorto, Inicial);
+        return Ponderado(TablaCaminoCorto);
     }
-    public void Ponderado(Vertice[] T, Vertice actual){
+    public Vertice[] Ponderado(Vertice[] T){
         Vertice v, w;
         Hash hash = this.ListaAdyacencia;
         w = new Vertice();
@@ -149,7 +149,8 @@ public class Grafo{
                 
 		v = verticeConDistanciaMasCortaDesconocido();
                 T[v.getIdHash()].setConocido(true);
-                System.out.println("Vertice " + v.getNombreEstacion() + " Padre");
+                /*System.out.println("Padre: " + v.getNombreEstacion());
+                System.out.println("-------------------------");*/
                 //capturo las aristas del vertice
                 ListaSimpleGeneric list = v.getLasAristas();
                 int cantAdyacentes = v.cantAristas(list);
@@ -160,30 +161,58 @@ public class Grafo{
                 {
                     nodo = nodo.getSiguiente();
                     w = nodo.getDato();
-                    if(T[hash.H(w.getNombreEstacion())].isConocido() == false && T[hash.H(v.getNombreEstacion())].getDistancia() + this.c(v, w, v.getLasAristas()) < T[hash.H(w.getNombreEstacion())].getDistancia()){
-                        T[hash.H(w.getNombreEstacion())].setDistancia(T[hash.H(v.getNombreEstacion())].getDistancia() + this.c(v, w, v.getLasAristas()));
+                    //Extras para detectar Fayas
+                    float Dist_VerticeW = T[hash.H(w.getNombreEstacion())].getDistancia();
+                    float Dist_VerticeV = T[hash.H(v.getNombreEstacion())].getDistancia();
+                    float Precio_DeV = T[hash.H(v.getNombreEstacion())].getPrecio();
+                    boolean W_esDesconocido = T[hash.H(w.getNombreEstacion())].isConocido();
+                    //                                             Dist Entre W y V
+                    if(W_esDesconocido == false && Dist_VerticeV + this.Dist_Entre(v, w, v.getLasAristas()) < Dist_VerticeW){
+                        
+                        T[hash.H(w.getNombreEstacion())].setDistancia(Dist_VerticeV + this.Dist_Entre(v, w, v.getLasAristas()));
+                        T[hash.H(w.getNombreEstacion())].setPrecio(Precio_DeV + this.Precio_Entre(v, w, v.getLasAristas()));
                         T[hash.H(w.getNombreEstacion())].setPv(v);
                     }
-                    System.out.println("Vertice " + w.getNombreEstacion() + " Adyacente");
+                    //System.out.print("Adyacente: " + w.getNombreEstacion() + "  → Estacion Anterior: ");
+                    /*if(w.getPv() != null)
+                        System.out.print(w.getPv().getNombreEstacion().toString());
+                    else{
+                        System.out.print("Null");
+                    }
+                    System.out.println("\n ");*/
                     
             }
-
+            //System.out.println("-------------------------");
         }
+        //imprimir(); pruebas
+        return TablaCaminoCorto;
     }
-    private float c(Vertice v, Vertice w, ListaSimpleGeneric aristas){
+    private float Dist_Entre(Vertice v, Vertice w, ListaSimpleGeneric aristas){
         NodoListaSimple nodo = new NodoListaSimple();
-        nodo.setDato(aristas.getInicio().getDato());
+        nodo = aristas.getInicio();
         while(nodo != null){
             Arista laArista = new Arista();
             laArista = (Arista)nodo.getDato();
-            if(laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion()) && laArista.getDestino().getNombreEstacion().equalsIgnoreCase(w.getNombreEstacion()) || laArista.getDestino().getNombreEstacion().equalsIgnoreCase(w.getNombreEstacion()) && laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion())){
+            if(laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion()) && laArista.getDestino().getNombreEstacion().equalsIgnoreCase(w.getNombreEstacion())){
                         return laArista.getDistancia();
                     }
            nodo = nodo.getSiguiente();
         }
          return -1;
     }
-        
+    private float Precio_Entre(Vertice v, Vertice w, ListaSimpleGeneric aristas){
+        NodoListaSimple nodo = new NodoListaSimple();
+        nodo = aristas.getInicio();
+        while(nodo != null){
+            Arista laArista = new Arista();
+            laArista = (Arista)nodo.getDato();
+            if(laArista.getOrigen().getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion()) && laArista.getDestino().getNombreEstacion().equalsIgnoreCase(w.getNombreEstacion())){
+                        return laArista.getPrecio();
+                    }
+           nodo = nodo.getSiguiente();
+        }
+         return -1;
+    } 
     
     public Vertice verticeConDistanciaMasCortaDesconocido(){
         float distancia = 0;
@@ -197,14 +226,48 @@ public class Grafo{
     }
     
     private void imprimir(){
+        System.out.println("Imprimiendo Tabla");
+        System.out.println("||Vertice   ||Conocido||Distancia||      PV     ||");
         for(int i = 0 ; i < TablaCaminoCorto.length; i++){
-            if(TablaCaminoCorto[i].getPv() == null){
-                System.out.println("Null");
-            }else
-                System.out.println("" + TablaCaminoCorto[i].getPv().toString());
-            System.out.println("" + TablaCaminoCorto[i].getDistancia());
-            System.out.println("" + TablaCaminoCorto[i].getPrecio());
+            if(TablaCaminoCorto[i].getDistancia() < Integer.MAX_VALUE){
+                 
+                 System.out.print("   " + TablaCaminoCorto[i].getNombreEstacion()+ " ");
+                 System.out.print("   " + TablaCaminoCorto[i].isConocido() + " ");
+                 System.out.print("         " + TablaCaminoCorto[i].getDistancia()+"      ");
+                if(TablaCaminoCorto[i].getPv() == null){
+                    System.out.print("   Null   ");
+                }else{
+                    System.out.print(TablaCaminoCorto[i].getPv().toString());
+                }
+
+                System.out.println(" ");
+            }
         }
     }
+    public float Camino_Mas_Corto(Vertice[] T, Vertice v){
+        float precioFinal;
+        Hash hash = this.ListaAdyacencia;
+	if(T[hash.H(v.getNombreEstacion())].getPv() != null){
+          Camino_Mas_Corto(T, T[hash.H(v.getNombreEstacion())].getPv());
+		System.out.print(" a →");
+	}
+        
+	System.out.print("Estacion: '" + v.getNombreEstacion() +"' '"+ v.getDistancia()+"km', Valor: " + v.getPrecio() + "\n");
+        return precioFinal = v.getPrecio();
+    }
+    public float Precio_a_Destino(Vertice[] T, Vertice v){
+        float precioFinal;
+        Hash hash = this.ListaAdyacencia;
+	if(T[hash.H(v.getNombreEstacion())].getPv() != null){
+          Camino_Mas_Corto(T, T[hash.H(v.getNombreEstacion())].getPv());
+	}
+        
+        if(v.getNombreEstacion().equalsIgnoreCase(T[hash.H(v.getNombreEstacion())].getPv().getNombreEstacion())){
+            precioFinal = v.getPrecio();
+            return precioFinal;
+        }
+	return 0;
+    }
+
     
 }
