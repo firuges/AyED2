@@ -9,6 +9,7 @@ import Common.Servicio;
 import ListaSimple.ListaSimple;
 import ListaSimpleGneric.ListaSimpleGeneric;
 import ListaSimpleGneric.NodoListaSimple;
+import arbol.ABB;
 import static javafx.scene.input.KeyCode.T;
 
 /**
@@ -16,28 +17,46 @@ import static javafx.scene.input.KeyCode.T;
  * @author Maxi
  */
 public class Vertice {
-    private String nombEstacion;
-    private ListaSimpleGeneric  losServicios;
     private int IdHash;
-    private ListaSimpleGeneric  LasAristas;
     private boolean conocido;
     private float Distancia; 
     private Vertice Pv;
     private float precio;
+    private Tipo PosMapa;
+    private String nombEstacion;
+    private ABB  losServicios;
+    private ListaSimpleGeneric  LasAristas;
+    
     public Vertice(String pNombreEstacion){
         this.nombEstacion = pNombreEstacion;
-        this.losServicios = new ListaSimpleGeneric ();
+        this.losServicios = new ABB ();
         this.IdHash = 0;
         this.LasAristas = new ListaSimpleGeneric();
     }
 
     public Vertice() {
         this.nombEstacion = null;
-        this.losServicios = new ListaSimpleGeneric ();
+        this.losServicios = new ABB ();
         this.IdHash = 0;
         this.LasAristas = new ListaSimpleGeneric();
     }
 
+    /**
+     * @return the PosMapa
+     */
+    public Tipo getPosMapa() {
+        return PosMapa;
+    }
+
+    /**
+     * @param PosMapa the PosMapa to set
+     */
+    public void setPosMapa(Tipo PosMapa) {
+        this.PosMapa = PosMapa;
+    }
+    public enum Tipo {
+        PUNTA, MEDIO
+    };
     /**
      * @return the nombEstacion
      */
@@ -59,14 +78,14 @@ public class Vertice {
     /**
      * @return the losServicios
      */
-    public ListaSimpleGeneric getLosServicios() {
+    public ABB getLosServicios() {
         return losServicios;
     }
 
     /**
      * @param unServicio the losServicios to set
      */
-    public void setLosServicios(ListaSimpleGeneric unServicio) {
+    public void setLosServicios(ABB unServicio) {
         this.losServicios = unServicio;
     }
 

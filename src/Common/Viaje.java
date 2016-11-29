@@ -82,7 +82,9 @@ public class Viaje implements Comparable{
     public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
-
+    public String toString(){
+        return "Origen: <" + vOrigen.getNombreEstacion() +"> " + vDestino.getNombreEstacion();
+    }
     @Override
     public int compareTo(Object o) {
         Viaje unViaje = (Viaje)o;

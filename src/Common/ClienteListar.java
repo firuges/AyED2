@@ -5,6 +5,8 @@
  */
 package Common;
 
+import Pila.Pila;
+
 /**
  *
  * @author Maxi
@@ -12,14 +14,18 @@ package Common;
 public class ClienteListar implements Comparable{
     private int cedula;
     private String nombre;
-
+    private Pila Viajes;
     public ClienteListar(int pCedula, String pNombre) {
         this.cedula = pCedula;
         this.nombre = pNombre;
+        Viajes = new Pila();
     }
-    public ClienteListar(){}
+    public ClienteListar(){
+        Viajes = new Pila();
+    }
     public ClienteListar(int pCedula) {
         this.cedula = pCedula;
+        Viajes = new Pila();
     }
 
     /**
@@ -43,7 +49,7 @@ public class ClienteListar implements Comparable{
         return nombre;
     }
     public String toString(){
-        return "Nombre: " + this.getNombre() + " - CI:" + this.getCedula();
+        return "Nombre: " + this.getNombre() + " - CI:" + this.getCedula() + " ";
     }
     /**
      * @param nombre the nombre to set
@@ -56,5 +62,19 @@ public class ClienteListar implements Comparable{
     public int compareTo(Object o) {
         ClienteListar unCli = (ClienteListar)o;
         return  ((Comparable) this.getNombre()).compareTo(unCli.nombre); 
+    }
+
+    /**
+     * @return the Viajes
+     */
+    public Pila getViajes() {
+        return Viajes;
+    }
+
+    /**
+     * @param Viajes the Viajes to set
+     */
+    public void setViajes(Pila Viajes) {
+        this.Viajes = Viajes;
     }
 }

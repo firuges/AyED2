@@ -28,5 +28,7 @@ public interface IABB <T> {
 
     int cantDeNodos(nodoABB a);
     boolean imprimirViajesDeClientePostOrder(Cliente unCli);
+    boolean imprimirLineasInOrder();
+    void imprimirInOrderClientes();
      void borrarMinimo(nodoABB nodo);
 }

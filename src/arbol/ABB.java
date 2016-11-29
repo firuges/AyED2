@@ -6,7 +6,13 @@
 package arbol;
 
 import Common.Cliente;
+import Common.ClienteListar;
+import Common.Linea;
 import Common.Viaje;
+import Grafo.Vertice;
+import Grafo.Vertice.Tipo;
+import ListaSimpleGneric.NodoListaSimple;
+import Pila.NodoPila;
 import ayed2obligatorio2016.Sistema;
 import ayed2obligatorio2016.Utilidades;
 
@@ -148,9 +154,12 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
 
     public void imprimirPreOrder(nodoABB a){
         if (a!=null){
-        System.out.println(a.getDato()+" - ");
-        imprimirPreOrder(a.getIzq());
-        imprimirPreOrder(a.getDer());
+            //raiz
+            System.out.println(a.getDato()+" - ");
+            //izq
+            imprimirPreOrder(a.getIzq());
+            //der
+            imprimirPreOrder(a.getDer());
         }
     }
     
@@ -172,8 +181,9 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
     public void imprimirInOrder(nodoABB a){
             if (a!=null){
                 imprimirInOrder(a.getIzq());
-                imprimirInOrder(a.getDer());
                 System.out.println(a.getDato()+" - ");
+                imprimirInOrder(a.getDer());
+                
              }
     }
     @Override
@@ -183,13 +193,21 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
     public nodoABB existeNodo(T dato, nodoABB a){
         nodoABB elNodo = new nodoABB(dato);
         
-        if (a!=null){
-            existeNodo(dato, a.getIzq());
+        while (a!=null){
+            if(elNodo.compareTo(a.getDato()) > 0){
+                a = a.getDer();
+            }
+            else if(elNodo.compareTo(a.getDato()) < 0){
+                a = a.getIzq();
+            }else{
+                return a;
+            }
+            /*existeNodo(dato, a.getIzq());
             existeNodo(dato, a.getDer());
             if(elNodo.compareTo(a.getDato()) == 0){
-            return a;
+                return a;
+            }*/
         }
-       }
         return null;
     }
     @Override
@@ -213,6 +231,73 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
            }
             return ninguno;
     }//
+    @Override
+    public boolean imprimirLineasInOrder(){
+        
+        return imprimirLineasInOrder(this.raiz);
+        
+    }
+    public boolean imprimirLineasInOrder(nodoABB a){
+            boolean ninguno = false;
+            int cont = 0;
+            Vertice Origen = new Vertice();
+            Vertice Destino = new Vertice();
+            Linea l = new Linea();
+            if (a!=null){
+                imprimirLineasInOrder(a.getIzq());
+                Linea aux = (Linea)a.getDato();
+                Vertice estacion = new Vertice();
+                NodoListaSimple nodo = (NodoListaSimple)aux.getEstaciones().getInicio();
+                //mientras hallan estaciones en la linea buscare todos los punteros
+                System.out.println((char)27 +  "[34;43mLinea: " + aux.getNombre());
+                while(nodo != null){
+                    estacion = (Vertice)nodo.getDato();
+                    //si es Puntero entro
+                    if(estacion.getPosMapa().equals(Tipo.PUNTA) && cont > 0){
+                        Destino = estacion;
+                        cont++;
+                    }
+                    if(estacion.getPosMapa().equals(Tipo.PUNTA) && cont < 1){
+                        Origen = estacion;
+                        cont++;
+                    }
+                    
+                    nodo = nodo.getSiguiente();
+                }
+                //inicializo los array teniendo el Origen
+                Vertice [] T = Sistema.MetroLineas.initArrays(Origen);
+                //creo el camino mas Corto 
+                float PrecioFinal = Sistema.MetroLineas.EstacionesDeLinea(T, Destino);
+                
+                imprimirLineasInOrder(a.getDer());
+                
+           }
+            return ninguno;
+    }//
+    
+    @Override
+    public void imprimirInOrderClientes(){
+        imprimirInOrderClientes(this.raiz);
+    }
+    public void imprimirInOrderClientes(nodoABB a){
+            boolean ninguno;
+            if (a!=null){
+                
+                imprimirInOrderClientes(a.getIzq());
+                imprimirInOrderClientes(a.getDer());
+                ClienteListar c = (ClienteListar)a.getDato();
+                try{
+                    NodoPila n = (NodoPila)c.getViajes().getTop();
+                    Viaje v = new Viaje();
+                    v = (Viaje)n.getElem();
+                    System.out.println(a.getDato()+" - Ultimo Viaje: " + v.getvOrigen() + " - "+ v.getvDestino());
+                }catch(Exception ex){
+                    System.out.println(a.getDato()+" - Ultimo Viaje: Sin Viajes.");
+                }
+                
+             }
+            
+    }
     public int cantDeNodos(nodoABB a){
     if (a!=null){
         return ( 1 + cantDeNodos(a.getIzq())) + (cantDeNodos(a.getDer()));
@@ -220,6 +305,62 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
      }
     return 0;
     }
-
+    /*Proyecto para implementar en el Seteo de Punteros
+    public static boolean TieneMasDeUnAdyacenteEnLaLinea(Vertice v){
+        nodoABB nodo = devolverNodo(Sistema.LasLineas.getRaiz());
+        int cant = 0;
+        boolean vInLin = false;
+        while(nodo!= null){
+            Linea lin = (Linea)nodo.getDato();
+            try{
+                NodoListaSimple nodoEstaciones = (NodoListaSimple)lin.getEstaciones().getInicio();
+                while(nodoEstaciones!= null){
+                    Vertice s = (Vertice)nodoEstaciones.getDato();
+                    if(s.getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion()) && !vInLin){
+                        vInLin = true;
+                        //si lo encuentro, vuelvo a recorrer la lista desde inicio
+                        nodoEstaciones = (NodoListaSimple)lin.getEstaciones().getInicio();
+                        //si ya encontre el que quiero y no estoy comparando con el mismo
+                    }if(vInLin && !s.getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion())){
+                        if(PerteneceA(v.getLasAristas(), s)){
+                            cant++;
+                        }
+                    }
+                    nodoEstaciones = nodoEstaciones.getSiguiente();
+                }
+            }catch(Exception ex){
+                nodo = devolverNodo(nodo);
+            }
+            
+            
+        }
+        return cant>1;
+    }
+    public static nodoABB devolverNodo(nodoABB nodo){
+        if(nodo != null)
+        {
+            return nodo;
+        }else{
+            devolverNodo(nodo.getIzq());
+            devolverNodo(nodo.getDer());
+        }
+        
+        return null;
+    }
+    public static boolean PerteneceA(ListaSimpleGeneric lasAristas, Vertice s){
+        NodoListaSimple aux = new NodoListaSimple();
+        
+        
+        aux = lasAristas.getInicio();
+        //aca recorro la Lista de Estaciones de una linea
+        while(aux != null){
+            Arista a = (Arista)aux.getDato();
+            if(a.getDestino().getNombreEstacion().equalsIgnoreCase(s.getNombreEstacion())){
+                return true;
+            }
+        }
+        return false;
+        
+    }*/
 
 }

@@ -18,6 +18,8 @@ import ListaSimpleGneric.NodoListaSimple;
 import arbol.ABB;
 import ayed2obligatorio2016.Sistema;
 import static java.lang.Integer.MAX_VALUE;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 /**
  *
@@ -28,11 +30,13 @@ public class Grafo{
     public ArrayList<Arista> ListaAristas;
     public static Vertice[] TablaCaminoCorto;
     private static int nroVertices;
+    private float distAnterior;
     public Grafo(){
         ListaAdyacencia = new Hash(100);
         ListaAristas = new ArrayList<Arista>();
         TablaCaminoCorto = new Vertice[100];
         nroVertices = 0;
+        distAnterior = 0;
     }
     public Vertice agregarVertice(Vertice v){
         Vertice auxiliar = existeVertice(v);
@@ -119,8 +123,9 @@ public class Grafo{
         TablaCaminoCorto = new Vertice[100];
         int largo = Sistema.MetroLineas.ListaAdyacencia.getTablaHash().length;
         NodoHash [] tabla = Sistema.MetroLineas.ListaAdyacencia.getTablaHash();
+       
         for(int i = 0; i < largo; i++){
-            if(Inicial.getIdHash() == i){
+            if( Inicial.getIdHash() == i){
                 TablaCaminoCorto[i] =  new Vertice();
                 TablaCaminoCorto[i] = tabla[i].getDato();
                 TablaCaminoCorto[i].setConocido(false);
@@ -156,22 +161,22 @@ public class Grafo{
                 int cantAdyacentes = v.cantAristas(list);
                 //for(w = Actual.getSiguiente(); w != null; w = w.getSiguiente())
                 NodoHash nodo = new NodoHash();
-                nodo = tabla[hash.H(v.getNombreEstacion())];
+                nodo = tabla[v.getIdHash()];
                 for(int j = 0; j < cantAdyacentes; j ++)
                 {
                     nodo = nodo.getSiguiente();
                     w = nodo.getDato();
                     //Extras para detectar Fayas
-                    float Dist_VerticeW = T[hash.H(w.getNombreEstacion())].getDistancia();
-                    float Dist_VerticeV = T[hash.H(v.getNombreEstacion())].getDistancia();
-                    float Precio_DeV = T[hash.H(v.getNombreEstacion())].getPrecio();
-                    boolean W_esDesconocido = T[hash.H(w.getNombreEstacion())].isConocido();
+                    float Dist_VerticeW = T[w.getIdHash()].getDistancia();
+                    float Dist_VerticeV = T[v.getIdHash()].getDistancia();
+                    float Precio_DeV = T[v.getIdHash()].getPrecio();
+                    boolean W_esDesconocido = T[w.getIdHash()].isConocido();
                     //                                             Dist Entre W y V
                     if(W_esDesconocido == false && Dist_VerticeV + this.Dist_Entre(v, w, v.getLasAristas()) < Dist_VerticeW){
                         
-                        T[hash.H(w.getNombreEstacion())].setDistancia(Dist_VerticeV + this.Dist_Entre(v, w, v.getLasAristas()));
-                        T[hash.H(w.getNombreEstacion())].setPrecio(Precio_DeV + this.Precio_Entre(v, w, v.getLasAristas()));
-                        T[hash.H(w.getNombreEstacion())].setPv(v);
+                        T[w.getIdHash()].setDistancia(Dist_VerticeV + this.Dist_Entre(v, w, v.getLasAristas()));
+                        T[w.getIdHash()].setPrecio(Precio_DeV + this.Precio_Entre(v, w, v.getLasAristas()));
+                        T[w.getIdHash()].setPv(v);
                     }
                     //System.out.print("Adyacente: " + w.getNombreEstacion() + "  → Estacion Anterior: ");
                     /*if(w.getPv() != null)
@@ -251,22 +256,39 @@ public class Grafo{
           Camino_Mas_Corto(T, T[hash.H(v.getNombreEstacion())].getPv());
 		System.out.print(" a →");
 	}
-        
-	System.out.print("Estacion: '" + v.getNombreEstacion() +"' '"+ v.getDistancia()+"km', Valor: " + v.getPrecio() + "\n");
+        //new BigDecimal(v.getDistancia() - distAnterior).setScale(1, RoundingMode.HALF_UP));
+	System.out.print("Estacion: '" + v.getNombreEstacion() +"' '"+ new BigDecimal(v.getDistancia()).setScale(1, RoundingMode.HALF_UP)+"km', Valor: " + v.getPrecio() + "\n");
         return precioFinal = v.getPrecio();
     }
     public float Precio_a_Destino(Vertice[] T, Vertice v){
         float precioFinal;
         Hash hash = this.ListaAdyacencia;
-	if(T[hash.H(v.getNombreEstacion())].getPv() != null){
-          Camino_Mas_Corto(T, T[hash.H(v.getNombreEstacion())].getPv());
+        int pos = hash.H(v.getNombreEstacion());
+	if(T[pos].getPv() != null){
+          Precio_a_Destino(T, T[hash.H(v.getNombreEstacion())].getPv());
 	}
         
-        if(v.getNombreEstacion().equalsIgnoreCase(T[hash.H(v.getNombreEstacion())].getPv().getNombreEstacion())){
+        if(v.getNombreEstacion().equalsIgnoreCase(T[hash.H(v.getNombreEstacion())].getNombreEstacion())){
             precioFinal = v.getPrecio();
             return precioFinal;
         }
 	return 0;
+    }
+    public float EstacionesDeLinea(Vertice[] T, Vertice v){
+        float precioFinal;
+        
+        Hash hash = this.ListaAdyacencia;
+	if(T[v.getIdHash()].getPv() != null){
+          EstacionesDeLinea(T, T[hash.H(v.getNombreEstacion())].getPv());
+	}
+         if(hash.getTablaHash()[v.getIdHash()].getDato().getDistancia() > 0){
+            System.out.println(v.getNombreEstacion() +"-"+ new BigDecimal(v.getDistancia() - distAnterior).setScale(1, RoundingMode.HALF_UP));
+            distAnterior = v.getDistancia();
+        }else{
+            System.out.println(v.getNombreEstacion());
+        }
+	
+        return precioFinal = v.getPrecio();
     }
 
     

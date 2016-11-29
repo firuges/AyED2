@@ -9,7 +9,7 @@ package Common;
  *
  * @author Maxi
  */
-public class Servicio {
+public class Servicio implements Comparable{
     private String nombre;
 
     /**
@@ -27,5 +27,14 @@ public class Servicio {
     }
     public Servicio(){
         this.nombre = null;
+    }
+    public String toString(){
+        return "♦ " + this.getNombre();
+    }
+    @Override
+    public int compareTo(Object o) {
+        Servicio serv = (Servicio)o;
+        int i= ((Comparable) this.nombre).compareTo(serv.getNombre()); 
+        return  i;
     }
 }

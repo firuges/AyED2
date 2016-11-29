@@ -49,11 +49,11 @@ public class Hash implements IHash  {
             if(getTablaHash()[i].getSiguiente()!= null){
                 NodoHash aux = getTablaHash()[i];
                 while(aux != null){
-                     System.out.println("Hash: " + i + ": "+ aux.getDato());
+                     //System.out.println("Hash: " + i + ": "+ aux.getDato());
                      aux = aux.getSiguiente();
                 }
             }else{
-                System.out.println("Hash: " + i + ": "+ getTablaHash()[i].getDato());
+                //System.out.println("Hash: " + i + ": "+ getTablaHash()[i].getDato());
             }
         }
     }
@@ -135,6 +135,7 @@ public class Hash implements IHash  {
     public int H(String Dato){
         int devolver = 0;
         devolver = hallarValorASCII(Dato) % (getTablaHash().length+1);
+        //System.out.println(Dato + " Hash: " +devolver);
         return devolver;
     }
     private int hallarValorASCII(String pString){

@@ -45,6 +45,18 @@ public class Main {
         tituloPrueba("PRUEBA 1: REGISTRAR TRAMOS Y CLIENTES");
         crearTramosLineaA(p, s);
         crearClientes(p, s);
+        /////////////////
+        String fechaInicialHora = "2016-11-16T12:05:30.756";
+        LocalDateTime ayer = LocalDateTime.parse(fechaInicialHora);
+        String fechaInicialHora2 = "2016-11-09T12:05:30.756";
+	LocalDateTime SemanaPasada = LocalDateTime.parse(fechaInicialHora2);
+        
+        String fechaInicialHora3 = "2015-11-09T12:05:30.756";
+	LocalDateTime AñoPasado = LocalDateTime.parse(fechaInicialHora3);
+        //////////////
+        p.ver(s.agregarViaje("Diagonal Norte", "Once", 11111111, ayer), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
+        p.ver(s.agregarViaje("Peru", "Once", 22222222, SemanaPasada), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
+        
         s.listarClientes();
         s.listarLineas();
         s.destruirMetro();
@@ -69,6 +81,7 @@ public class Main {
         crearTramosLineaA(p, s);
         crearTramosLineaB(p, s);
         crearTramosLineaC(p, s);
+        
         LocalDateTime hoy = LocalDateTime.now();
         String fechaInicialHora = "2016-11-16T12:05:30.756";
 	LocalDateTime ayer = LocalDateTime.parse(fechaInicialHora);
@@ -85,6 +98,7 @@ public class Main {
         p.ver(s.agregarViaje("Avenida de Mayo", "San Juan", 11111111, ayer), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
         p.ver(s.agregarViaje("Avenida de Mayo", "San Juan", 11111111, SemanaPasada), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
         p.ver(s.agregarViaje("Avenida de Mayo", "San Juan", 11111111, AñoPasado), Sistema.TipoRet.OK, "Se agrega el viaje Avenida de Mayo-San Juan para el Cliente Lucas Hussey"); 
+        
         /***////
         s.listarViajesCliente(11111111);
         s.destruirMetro();
@@ -102,8 +116,12 @@ public class Main {
         p.ver(s.agregarServicio("San Juan", "Telefono Publico"), Sistema.TipoRet.OK, "Se agrega el servicio Telefono Publico en la estacion Retiro");
         p.ver(s.agregarServicio("Avenida de Mayo", "Wifi"), Sistema.TipoRet.OK, "Se agrega el servicio Wifi en la estacion Avenida de Mayo");
         p.ver(s.agregarServicio("Medrano", "Comida Rapida"), Sistema.TipoRet.OK, "Se agrega el servicio Comida Rapida en la estacion Medrano");
+        p.ver(s.agregarServicio("Medrano", "Telefonia Publica"), Sistema.TipoRet.OK, "Se agrega el servicio Telefonia Publica en la estacion Medrano");
+        p.ver(s.agregarServicio("Medrano", "Bar"), Sistema.TipoRet.OK, "Se agrega el servicio Telefonia Publica en la estacion Medrano");
+        p.ver(s.agregarServicio("Medrano", "Policia"), Sistema.TipoRet.OK, "Se agrega el servicio Telefonia Publica en la estacion Medrano");
         s.listarServiciosEstacion("Constitucion");
         s.listarServiciosEstacion("San Juan");
+        s.listarServiciosEstacion("Medrano");
         s.destruirMetro();
         finPrueba(" Fin PRUEBA 4");
     }
@@ -116,8 +134,15 @@ public class Main {
         crearTramosLineaB(p, s);
         crearTramosLineaC(p, s);
         crearTramosLineaH(p, s);
-        s.caminoMasCorto("Corrientes", "Peru");
+        s.listarLineas();
+        p.ver(s.caminoMasCorto("Corrientes", "Peru"), Sistema.TipoRet.OK, "");
+        s.precioBoleto("Corrientes", "Peru");
+        System.out.println("-----------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------");
+        p.ver(s.caminoMasCorto("Bulnes", "Once"), Sistema.TipoRet.OK, "");
         s.precioBoleto("Bulnes", "Once");
+        p.ver(s.caminoMasCorto("Facultad de Medicina", "Rosario"), Sistema.TipoRet.OK, "");
+        s.precioBoleto("Facultad de Medicina", "Rosario");
         s.destruirMetro();
         finPrueba(" Fin PRUEBA 5");
     }
@@ -216,41 +241,55 @@ public class Main {
 
 
     private static void crearTramosLineaA(Prueba p, Sistema s) {
+        p.ver(s.altaTramo('A', "La Plata", "Peru", 0.6f,  5.5f), Sistema.TipoRet.OK, "Se agrega el tramo La Plata - Peru");
+        p.ver(s.altaTramo('A', "Peru", "Diagonal Norte", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Peru - Diagonal Norte");
         p.ver(s.altaTramo('A', "Diagonal Norte", "Congreso", 0.6f,  5.5f), Sistema.TipoRet.OK, "Se agrega el tramo Diagonal Norte - Congreso");
         p.ver(s.altaTramo('A', "Congreso", "Once", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo Congreso - Once");
-        p.ver(s.altaTramo('A', "Peru", "Diagonal Norte", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Peru - Diagonal Norte");
+        p.ver(s.altaTramo('A', "Once", "Hospitales", 0.5f,  5.5f), Sistema.TipoRet.OK, "Se agrega el tramo Once - Hospitales");
+        p.ver(s.altaTramo('A', "Hospitales", "Santa fe", 0.7f,  5.1f), Sistema.TipoRet.OK, "Se agrega el tramo Hospitales - Santa fe");
+        p.ver(s.altaTramo('A', "Santa fe", "Pueyrredon", 0.7f,  5.1f), Sistema.TipoRet.OK, "Se agrega el tramo Santa fe - Pueyrredon");
         /*Se puede agregar el tramo de abajo, el Codigo hash de ambas es 8 como Peru, y asi comprobar que busca el siguiente Vacio
         p.ver(s.altaTramo('A', "efgj", "defm", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Peru - Diagonal Norte");
         */
     }
 
     private static void crearTramosLineaB(Prueba p, Sistema s) {
-        p.ver(s.altaTramo('B', "Diagonal Norte", "Uruguay", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Diagonal Norte - Uruguay");
+        p.ver(s.altaTramo('B', "Pasteur", "Carlos Pellegrini", 0.7f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo Pasteur- Carlos Pellegrini");
+        p.ver(s.altaTramo('B', "Carlos Pellegrini", "Uruguay", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Carlos Pellegrini - Uruguay");
         p.ver(s.altaTramo('B', "Uruguay", "Medrano", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo Uruguay - Medrano");
-        p.ver(s.altaTramo('B', "Uruguay", "Carlos Pellegrini", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Uruguay - Carlos Pellegrini");
         p.ver(s.altaTramo('B', "Medrano", "Corrientes", 0.8f,  7.5f), Sistema.TipoRet.OK, "Se agrega el tramo Medrano - Corrientes");
+        p.ver(s.altaTramo('B', "Corrientes", "9 Julio", 0.7f,  5.5f), Sistema.TipoRet.OK, "Se agrega el tramo Corrientes - 9 Julio");
+        p.ver(s.altaTramo('B', "9 Julio", "Facultad de Medicina", 0.5f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo 9 Julio - Facultad de Medicina");
     }
 
     private static void crearTramosLineaC(Prueba p, Sistema s) {
         p.ver(s.altaTramo('C', "Bulnes", "Constitucion", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Bulnes - Constitucion");
         p.ver(s.altaTramo('C', "Constitucion", "San Juan", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Constitucion - San Juan");
         p.ver(s.altaTramo('C', "San Juan", "Avenida de Mayo", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo San Juan - Avenida de Mayo");
-        p.ver(s.altaTramo('C', "Avenida de Mayo", "Diagonal Norte", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo San Juan - Diagonal Norte");
-        
+        p.ver(s.altaTramo('C', "Avenida de Mayo", "Diagonal Norte", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Avenida de Mayo - Diagonal Norte");
+        p.ver(s.altaTramo('C', "Diagonal Norte", "Uruguay", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Diagonal Norte - Uruguay");
+        p.ver(s.altaTramo('C', "Uruguay", "Las Heras", 0.8f,  6f), Sistema.TipoRet.OK, "Se agrega el tramo Uruguay - Las Heras");
         /**Agregado el tramo "Constitucion", "Avenida de mayo" Porque sino prueba3Ok no funcionaba**/
         //p.ver(s.altaTramo('C', "Diagonal Norte", "Bulnes", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Constitucion - Bulnes");
     }
 
     private static void crearTramosLineaH(Prueba p, Sistema s) {
-        p.ver(s.altaTramo('H', "Once", "Venezuela", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Once - Venezuela");
-        p.ver(s.altaTramo('H', "Venezuela", "Jujuy", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo Venezuela - Jujuy");
+        p.ver(s.altaTramo('H', "Jujuy", "Venezuela", 0.4f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo Jujuy - Venezuela");
+        p.ver(s.altaTramo('H', "Venezuela", "Once", 0.5f,  5f), Sistema.TipoRet.OK, "Se agrega el tramo Venezuela - Once");
         p.ver(s.altaTramo('H', "Once", "Corrientes", 0.8f,  6.5f), Sistema.TipoRet.OK, "Se agrega el tramo Once - Corrientes");
+        p.ver(s.altaTramo('H', "Corrientes", "Plaza Francia", 1.1f,  7.5f), Sistema.TipoRet.OK, "Se agrega el tramo Corrientes - Plaza Francia");
+        p.ver(s.altaTramo('H', "Plaza Francia", "Rosario", 0.5f,  4.5f), Sistema.TipoRet.OK, "Se agrega el tramo Plaza Francia - Rosario");
     }
     
     private static void crearClientes(Prueba p, Sistema s) {
         p.ver(s.altaCliente(11111111, "Lucas Hussey"), Sistema.TipoRet.OK, "Se agrega el cliente Lucas Hussey ");
         p.ver(s.altaCliente(22222222, "Ernesto Melgar"), Sistema.TipoRet.OK, "Se agrega el cliente Ernesto Melgar");
         p.ver(s.altaCliente(33333333, "Marcus Bremen"), Sistema.TipoRet.OK, "Se agrega el cliente Marcus Bremen");
+        p.ver(s.altaCliente(44444444, "Marcinio Sandungueiro"), Sistema.TipoRet.OK, "Se agrega el cliente Marcinio Sandungueiro");
+        p.ver(s.altaCliente(55555555, "Alberto Random"), Sistema.TipoRet.OK, "Se agrega el cliente Alberto Random");
+        p.ver(s.altaCliente(66666666, "Esteban JJ"), Sistema.TipoRet.OK, "Se agrega el cliente Esteban JJ");
+        p.ver(s.altaCliente(77777777, "David Zz"), Sistema.TipoRet.OK, "Se agrega el cliente David Zz");
+        p.ver(s.altaCliente(99999999, "Romero Lolazo"), Sistema.TipoRet.OK, "Se agrega el cliente Romero Lolazo");
     }
 
 }

@@ -7,6 +7,7 @@ package ayed2obligatorio2016;
 
 import Common.Cliente;
 import Common.ClienteListar;
+import Common.Linea;
 import Common.Servicio;
 import Common.Viaje;
 import Grafo.Arista;
@@ -14,6 +15,7 @@ import Grafo.Grafo;
 import Grafo.Vertice;
 import Hash.Hash;
 import ListaSimpleGneric.ListaSimpleGeneric;
+import ListaSimpleGneric.NodoListaSimple;
 import arbol.ABB;
 import arbol.nodoABB;
 import java.time.LocalDateTime;
@@ -29,6 +31,7 @@ public class Sistema implements IMetro {
     public static ABB ListaDeClientesXcedula;
     public static ABB ListaDeClientesXnombre;
     public static ABB ListaViajes;
+    public static ABB LasLineas;
     public enum TipoRet {
         OK, ERROR_1, ERROR_2, ERROR_3, ERROR_4, NO_IMPLEMENTADA
     };
@@ -38,6 +41,7 @@ public class Sistema implements IMetro {
             MetroLineas = new Grafo();
             ListaDeClientesXcedula = new ABB();
             ListaDeClientesXnombre = new ABB();
+            LasLineas = new ABB();
             ListaViajes = new ABB();
         }
         return TipoRet.OK;
@@ -46,6 +50,10 @@ public class Sistema implements IMetro {
     public TipoRet destruirMetro() {
         if(MetroLineas != null){
             MetroLineas = null;
+            ListaDeClientesXcedula = new ABB();
+            ListaDeClientesXnombre = new ABB();
+            LasLineas = new ABB();
+            ListaViajes = new ABB();
         }
                 return TipoRet.OK;
     }
@@ -59,13 +67,38 @@ public class Sistema implements IMetro {
         Destino.setNombAeropuerto(destino);
         
         //AgregarArista
+        Origen = MetroLineas.agregarVertice(Origen);
+        Destino = MetroLineas.agregarVertice(Destino);
         
         Arista arista = new Arista(Origen, Destino, linea ,distancia, tarifa);
         Arista aristaRegreso = new Arista(Destino, Origen, linea ,distancia, tarifa);
         //Agregar Vertices
         
-        Origen = MetroLineas.agregarVertice(Origen);
-        Destino = MetroLineas.agregarVertice(Destino);
+        
+        //
+        Linea laLinea = new Linea(linea);
+        //nodo de arbol
+        nodoABB nAbb = new nodoABB(laLinea);
+        //compruebo si existe
+        nAbb = LasLineas.existeNodo(laLinea);
+        if(nAbb == null){
+            //le agrego las estaciones a la lista
+            laLinea.getEstaciones().insertarInicio(Origen);
+            laLinea.getEstaciones().insertarInicio(Destino);
+            LasLineas.insertar(laLinea);
+            
+        }else{
+            laLinea = (Linea)nAbb.getDato();
+            //chequeo que ya no tenga estas estaciones
+            boolean exist = laLinea.EstacionExisteEnLinea(Origen, laLinea.getEstaciones());
+            boolean exist2 = laLinea.EstacionExisteEnLinea(Destino, laLinea.getEstaciones());
+            //
+            if(!exist)
+                laLinea.getEstaciones().insertarInicio(Origen);
+            if(!exist2)
+                laLinea.getEstaciones().insertarInicio(Destino);
+        }
+        //*************************************************
         Origen.getLasAristas().insertarInicio(arista);
         Destino.getLasAristas().insertarInicio(aristaRegreso);
         if(Utilidades.DistanciaCorrecta(distancia)){
@@ -93,18 +126,38 @@ public class Sistema implements IMetro {
         Vertice Destino = new Vertice(destino);
         Arista OriDesti = new Arista(Origen, Destino);
         Cliente unCli = new Cliente(ciCliente);
+        ClienteListar unCli2 = new ClienteListar(ciCliente);
         if(Utilidades.FormatoCedula(ciCliente)){
             nodoABB aux = ListaDeClientesXcedula.existeNodo(unCli);
+            
             if(aux!= null){
                 Viaje unViaje = new Viaje(Origen, Destino, unCli, fechaHora);
-                if(MetroLineas.existenEstacionesDeLaLinea(unViaje)){
+                Origen = MetroLineas.existeVertice(Origen);
+                Destino = MetroLineas.existeVertice(Destino);
+                
+                if(Origen != null && Destino != null){
                     
-                    unViaje.setcCliente((Cliente)aux.getDato());
-                    boolean agregado = false;
-                    agregado = Sistema.ListaViajes.insertar(unViaje);
-                    if(agregado){
-                       return TipoRet.OK;
+                    Vertice [] T = Sistema.MetroLineas.initArrays(Origen);
+                
+                    float PrecioFinal = Sistema.MetroLineas.Precio_a_Destino(T, Destino);
+                    if(PrecioFinal > 0)
+                    {
+                        unViaje.setcCliente((Cliente)aux.getDato());
+                        boolean agregado = false;
+                        agregado = Sistema.ListaViajes.insertar(unViaje);
+                        unCli = (Cliente)aux.getDato();
+                        unCli.getViajes().push(unViaje);
+                        unCli2.setNombre(unCli.getNombre());
+                        nodoABB aux2 = ListaDeClientesXnombre.existeNodo(unCli2);
+                        unCli2 = (ClienteListar)aux2.getDato();
+                        unCli2.getViajes().push(unViaje);
+                        if(agregado){
+                           return TipoRet.OK;
+                        }
+                    }else{
+                        return TipoRet.ERROR_1;
                     }
+                    
                     
                 }else{
                     return TipoRet.ERROR_1;
@@ -123,8 +176,10 @@ public class Sistema implements IMetro {
         unaEstacion = this.MetroLineas.existeVertice(unaEstacion);
         if(unaEstacion != null){
             Servicio serv = new Servicio();
+            serv.setNombre(servicio);
+            
             if(unaEstacion.getLosServicios()!= null){
-                unaEstacion.getLosServicios().insertarInicio(serv);
+                unaEstacion.getLosServicios().insertar(serv);
                 return TipoRet.OK;
             }
         }
@@ -135,8 +190,11 @@ public class Sistema implements IMetro {
 
     public TipoRet listarClientes() {
         nodoABB nodo = Sistema.ListaDeClientesXnombre.getRaiz();
-        if(nodo != null)
-            Sistema.ListaDeClientesXnombre.imprimirPreOrder();
+        if(nodo.getDato() != null)
+            Sistema.ListaDeClientesXnombre.imprimirInOrder();
+        else{
+            System.out.println((char)27 + "[30;31m No existen Clientes Registrados");
+        }
         return TipoRet.OK;
     }
 
@@ -175,11 +233,26 @@ public class Sistema implements IMetro {
     }
 
     public TipoRet listarServiciosEstacion(String estacion) {
-                return TipoRet.NO_IMPLEMENTADA;
+        Vertice Estacion = new Vertice(estacion);
+        Estacion = Sistema.MetroLineas.existeVertice(Estacion);
+        if(Estacion != null){
+            System.out.println("Estacion: "+Estacion.getNombreEstacion());
+            Estacion.getLosServicios().imprimirInOrder();
+            return TipoRet.OK;
+        }else{
+            return TipoRet.ERROR_1;
+        }
     }
 
     public TipoRet listarLineas() {
-                return TipoRet.NO_IMPLEMENTADA;
+        Utilidades.SetearPosicionEstaciones(Sistema.MetroLineas);
+        if(LasLineas.getRaiz() == null){
+            System.out.println("No hay Líneas en el Metro.");
+        }else{
+            LasLineas.imprimirLineasInOrder();
+        }
+        
+        return TipoRet.OK;
     }
 
     public TipoRet caminoMasCorto(String origen, String destino) {
@@ -197,7 +270,7 @@ public class Sistema implements IMetro {
             return TipoRet.ERROR_2;
         }
         Vertice [] T = Sistema.MetroLineas.initArrays(Origen);
-        System.out.println("Imprimiendo Camino mas Corto desde: " + Origen.getNombreEstacion() + " a "+ Destino.getNombreEstacion());
+        System.out.println((char)27 + "[30;31m Imprimiendo Camino mas Corto desde: " + Origen.getNombreEstacion() + " a "+ Destino.getNombreEstacion());
         float PrecioFinal = Sistema.MetroLineas.Camino_Mas_Corto(T, Destino);
         return TipoRet.OK;
     }
@@ -217,8 +290,8 @@ public class Sistema implements IMetro {
             return TipoRet.ERROR_2;
         }
         Vertice [] T = Sistema.MetroLineas.initArrays(Origen);
-        float PrecioFinal = Sistema.MetroLineas.Camino_Mas_Corto(T, Destino);
-        System.out.println("Precio del boleto de "+ origen +" a "+destino +" es: "+ PrecioFinal);
+        float PrecioFinal = Sistema.MetroLineas.Precio_a_Destino(T, Destino);
+        System.out.println((char)27 + "[30;31m Precio del boleto de "+ origen +" a "+destino +" es: "+ PrecioFinal);
         return TipoRet.OK;
     }
 
@@ -257,11 +330,6 @@ public class Sistema implements IMetro {
             eliminado2 = Sistema.ListaDeClientesXcedula.eliminar(unCli); //POR CEDULA
             eliminado = Sistema.ListaDeClientesXnombre.eliminar(unCli2); // POR NOMBRE
         }
-        
-        
-        
-        
-        
         if(eliminado){
             return TipoRet.OK;
         }else{
