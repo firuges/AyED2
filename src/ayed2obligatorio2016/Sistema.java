@@ -13,14 +13,9 @@ import Common.Viaje;
 import Grafo.Arista;
 import Grafo.Grafo;
 import Grafo.Vertice;
-import Hash.Hash;
-import ListaSimpleGneric.ListaSimpleGeneric;
-import ListaSimpleGneric.NodoListaSimple;
 import arbol.ABB;
 import arbol.nodoABB;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

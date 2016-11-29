@@ -27,7 +27,7 @@ public class Hash implements IHash  {
         Vertice dato = null;
         int hashPosition = this.H(i.getNombreEstacion());
         int a = -1;
-        if( getTablaHash()[hashPosition].getEstado().equals(TipoRet.OCUPADO) ){
+        if( getTablaHash()[hashPosition].getEstado().equals(TipoRet.OCUPADO)){
             while(getTablaHash()[hashPosition].getEstado().equals(TipoRet.OCUPADO)){
                 hashPosition = hashPosition+1;
             }
@@ -113,16 +113,26 @@ public class Hash implements IHash  {
     }
     @Override
     public boolean Borrar(Vertice i) {
-        Vertice Abc = null;
-        int hash = H(i.getNombreEstacion());
-        Abc = getTablaHash()[hash].getDato();
+        Vertice v = new Vertice();
         
-        NodoHash aux = getTablaHash()[hash];
-        if(Abc.equals(i)){
-            getTablaHash()[hash] = getTablaHash()[hash].getSiguiente();
-            return true;
+        boolean encontro = false;
+        int hashPosition = this.H(i.getNombreEstacion());
+        int a = -1;
+        if( getTablaHash()[hashPosition].getEstado().equals(TipoRet.OCUPADO)&& getTablaHash()[hashPosition].getDato().getNombreEstacion().equalsIgnoreCase(i.getNombreEstacion()) ){
+            
+            getTablaHash()[hashPosition].setDato(v);
+            getTablaHash()[hashPosition].setEstado(TipoRet.ELIMINADO);
+            encontro= true;
+        }else{
+            while(getTablaHash()[hashPosition].getEstado().equals(TipoRet.OCUPADO) && !getTablaHash()[hashPosition].getDato().getNombreEstacion().equalsIgnoreCase(i.getNombreEstacion())){
+                hashPosition = hashPosition+1;
+            }
+            getTablaHash()[hashPosition].setDato(v);
+            getTablaHash()[hashPosition].setEstado(TipoRet.ELIMINADO);
+            
+            encontro =  true;
         }
-        return false;
+        return encontro;
     }
     ///CONSTRUCTOR
     public Hash (int Cant){

@@ -23,6 +23,7 @@ public class Vertice {
     private Vertice Pv;
     private float precio;
     private Tipo PosMapa;
+    private char PunteroDeLinea;
     private String nombEstacion;
     private ABB  losServicios;
     private ListaSimpleGeneric  LasAristas;
@@ -53,6 +54,20 @@ public class Vertice {
      */
     public void setPosMapa(Tipo PosMapa) {
         this.PosMapa = PosMapa;
+    }
+
+    /**
+     * @return the PunteroDeLinea
+     */
+    public char getPunteroDeLinea() {
+        return PunteroDeLinea;
+    }
+
+    /**
+     * @param PunteroDeLinea the PunteroDeLinea to set
+     */
+    public void setPunteroDeLinea(char PunteroDeLinea) {
+        this.PunteroDeLinea = PunteroDeLinea;
     }
     public enum Tipo {
         PUNTA, MEDIO

@@ -113,7 +113,7 @@ public class Main {
         crearTramosLineaC(p, s);
         p.ver(s.agregarServicio("Constitucion", "Servicios Higienicos"), Sistema.TipoRet.OK, "Se agrega el servicio Servicios Higienicos en la estacion Constitucion");
         p.ver(s.agregarServicio("Constitucion", "Wifi"), Sistema.TipoRet.OK, "Se agrega el servicio Wifi en la estacion Constitucion");
-        p.ver(s.agregarServicio("San Juan", "Telefono Publico"), Sistema.TipoRet.OK, "Se agrega el servicio Telefono Publico en la estacion Retiro");
+        p.ver(s.agregarServicio("San Juan", "Telefono Publico"), Sistema.TipoRet.OK, "Se agrega el servicio Telefono Publico en la estacion San Juan");
         p.ver(s.agregarServicio("Avenida de Mayo", "Wifi"), Sistema.TipoRet.OK, "Se agrega el servicio Wifi en la estacion Avenida de Mayo");
         p.ver(s.agregarServicio("Medrano", "Comida Rapida"), Sistema.TipoRet.OK, "Se agrega el servicio Comida Rapida en la estacion Medrano");
         p.ver(s.agregarServicio("Medrano", "Telefonia Publica"), Sistema.TipoRet.OK, "Se agrega el servicio Telefonia Publica en la estacion Medrano");

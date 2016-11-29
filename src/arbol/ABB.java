@@ -9,8 +9,10 @@ import Common.Cliente;
 import Common.ClienteListar;
 import Common.Linea;
 import Common.Viaje;
+import Grafo.Arista;
 import Grafo.Vertice;
 import Grafo.Vertice.Tipo;
+import ListaSimpleGneric.ListaSimpleGeneric;
 import ListaSimpleGneric.NodoListaSimple;
 import Pila.NodoPila;
 import ayed2obligatorio2016.Sistema;
@@ -253,11 +255,11 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
                 while(nodo != null){
                     estacion = (Vertice)nodo.getDato();
                     //si es Puntero entro
-                    if(estacion.getPosMapa().equals(Tipo.PUNTA) && cont > 0){
+                    if(estacion.getPosMapa().equals(Tipo.PUNTA)&& estacion.getPunteroDeLinea() == aux.getNombre() && cont > 0){
                         Destino = estacion;
                         cont++;
                     }
-                    if(estacion.getPosMapa().equals(Tipo.PUNTA) && cont < 1){
+                    if(estacion.getPosMapa().equals(Tipo.PUNTA)&& estacion.getPunteroDeLinea() == aux.getNombre() && cont < 1){
                         Origen = estacion;
                         cont++;
                     }
@@ -305,62 +307,7 @@ public class ABB <T extends Comparable<T>> implements IABB <T>{
      }
     return 0;
     }
-    /*Proyecto para implementar en el Seteo de Punteros
-    public static boolean TieneMasDeUnAdyacenteEnLaLinea(Vertice v){
-        nodoABB nodo = devolverNodo(Sistema.LasLineas.getRaiz());
-        int cant = 0;
-        boolean vInLin = false;
-        while(nodo!= null){
-            Linea lin = (Linea)nodo.getDato();
-            try{
-                NodoListaSimple nodoEstaciones = (NodoListaSimple)lin.getEstaciones().getInicio();
-                while(nodoEstaciones!= null){
-                    Vertice s = (Vertice)nodoEstaciones.getDato();
-                    if(s.getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion()) && !vInLin){
-                        vInLin = true;
-                        //si lo encuentro, vuelvo a recorrer la lista desde inicio
-                        nodoEstaciones = (NodoListaSimple)lin.getEstaciones().getInicio();
-                        //si ya encontre el que quiero y no estoy comparando con el mismo
-                    }if(vInLin && !s.getNombreEstacion().equalsIgnoreCase(v.getNombreEstacion())){
-                        if(PerteneceA(v.getLasAristas(), s)){
-                            cant++;
-                        }
-                    }
-                    nodoEstaciones = nodoEstaciones.getSiguiente();
-                }
-            }catch(Exception ex){
-                nodo = devolverNodo(nodo);
-            }
-            
-            
-        }
-        return cant>1;
-    }
-    public static nodoABB devolverNodo(nodoABB nodo){
-        if(nodo != null)
-        {
-            return nodo;
-        }else{
-            devolverNodo(nodo.getIzq());
-            devolverNodo(nodo.getDer());
-        }
-        
-        return null;
-    }
-    public static boolean PerteneceA(ListaSimpleGeneric lasAristas, Vertice s){
-        NodoListaSimple aux = new NodoListaSimple();
-        
-        
-        aux = lasAristas.getInicio();
-        //aca recorro la Lista de Estaciones de una linea
-        while(aux != null){
-            Arista a = (Arista)aux.getDato();
-            if(a.getDestino().getNombreEstacion().equalsIgnoreCase(s.getNombreEstacion())){
-                return true;
-            }
-        }
-        return false;
-        
-    }*/
+    
+    
 
 }

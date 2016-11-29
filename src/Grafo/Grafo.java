@@ -5,19 +5,13 @@
  */
 package Grafo;
 
-import Cola.Cola;
 import Common.Viaje;
 import Hash.Hash;
-import ListaSimple.ListaSimple;
 import Grafo.Vertice;
-import Hash.IndicadorEstado;
-import Hash.IndicadorEstado.TipoRet;
 import Hash.NodoHash;
 import ListaSimpleGneric.ListaSimpleGeneric;
 import ListaSimpleGneric.NodoListaSimple;
-import arbol.ABB;
 import ayed2obligatorio2016.Sistema;
-import static java.lang.Integer.MAX_VALUE;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;

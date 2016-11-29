@@ -16,6 +16,7 @@ import Hash.IndicadorEstado.TipoRet;
 import Hash.NodoHash;
 import ListaSimpleGneric.ListaSimpleGeneric;
 import ListaSimpleGneric.NodoListaSimple;
+import arbol.ABB;
 import arbol.nodoABB;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,16 +61,21 @@ public class Utilidades {
     
     public static void SetearPosicionEstaciones(Grafo g){
         Hash listaAdyacencia = g.ListaAdyacencia;
+        ABB abb = new ABB();
         NodoHash [] tablaHash = listaAdyacencia.getTablaHash();
         for(int i = 0; i < tablaHash.length ; i++){
             if(tablaHash[i].getEstado().equals(TipoRet.OCUPADO)){
                 Vertice v = tablaHash[i].getDato();
                 //si tiene mas de un adyacente y no pertenece a mas de una linea
-                if(v.cantAristas(v.getLasAristas())>1){ //tiene mas de un adyacente
+                //if(v.cantAristas(v.getLasAristas())>1){ //tiene mas de un adyacente
+                Linea l = new Linea();
+                l = l.EsPunteroDe(v);
+                if(l == null){
                     v.setPosMapa(Tipo.MEDIO);
                     //System.out.println("Medio  " + v.getNombreEstacion());
                 }else{
                     v.setPosMapa(Tipo.PUNTA);
+                    v.setPunteroDeLinea(l.getNombre());
                     //System.out.println("Punta  " + v.getNombreEstacion());
                 }
             }
